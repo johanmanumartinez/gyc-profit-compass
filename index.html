@@ -52,7 +52,7 @@
       <!-- STEP 1: Perfil de la Clínica -->
       <div class="step active" data-step="1">
         <div class="step__header">
-          <span class="step__tag">Paso 1 de 7</span>
+          <span class="step__tag">Paso 1 de 8</span>
           <h2 class="step__title">Perfil de tu clínica</h2>
           <p class="step__desc">Cuéntanos sobre tu operación actual para personalizar tu diagnóstico.</p>
         </div>
@@ -98,6 +98,7 @@
                 <span class="tooltip" data-tip="Cuántos profesionales pueden atender al mismo tiempo en una sede.">?</span>
               </label>
               <input type="number" class="field__input" id="num-chairs" min="1" max="50" value="2">
+              <p class="field__desc">Cuántos profesionales pueden atender pacientes al mismo tiempo en una sede.</p>
             </div>
           </div>
         </div>
@@ -110,7 +111,7 @@
       <!-- STEP 2: Catálogo de Servicios -->
       <div class="step" data-step="2">
         <div class="step__header">
-          <span class="step__tag">Paso 2 de 7</span>
+          <span class="step__tag">Paso 2 de 8</span>
           <h2 class="step__title">Tus servicios</h2>
           <p class="step__desc">Agrega cada procedimiento que ofrece tu clínica. Empieza con los más importantes.</p>
         </div>
@@ -127,7 +128,7 @@
       <!-- STEP 3: Costos Fijos -->
       <div class="step" data-step="3">
         <div class="step__header">
-          <span class="step__tag">Paso 3 de 7</span>
+          <span class="step__tag">Paso 3 de 8</span>
           <h2 class="step__title">Costos fijos mensuales</h2>
           <p class="step__desc">Todo lo que pagas cada mes independientemente de cuántos pacientes atiendas.</p>
         </div>
@@ -190,7 +191,7 @@
       <!-- STEP 4: Nómina -->
       <div class="step" data-step="4">
         <div class="step__header">
-          <span class="step__tag">Paso 4 de 7</span>
+          <span class="step__tag">Paso 4 de 8</span>
           <h2 class="step__title">Tu equipo</h2>
           <p class="step__desc">Agrega cada rol de tu clínica con su costo mensual total (salario + comisiones + cargas).</p>
         </div>
@@ -211,7 +212,7 @@
       <!-- STEP 5: Adquisición -->
       <div class="step" data-step="5">
         <div class="step__header">
-          <span class="step__tag">Paso 5 de 7</span>
+          <span class="step__tag">Paso 5 de 8</span>
           <h2 class="step__title">Adquisición de pacientes</h2>
           <p class="step__desc">¿Cómo llegan tus pacientes hoy?</p>
         </div>
@@ -226,6 +227,7 @@
           <div class="field field--conditional" id="ads-spend-wrap" style="display:none;">
             <label class="field__label">Gasto mensual en anuncios</label>
             <div class="field__money"><span class="field__currency">$</span><input type="number" class="field__input" id="ad-spend" min="0" value="0"></div>
+            <p class="field__desc">Lo que inviertes en Facebook Ads, Google Ads, Instagram Ads, etc. Solo el presupuesto de anuncios.</p>
           </div>
           <div class="field-row">
             <div class="field">
@@ -249,6 +251,7 @@
               <input type="number" class="field__input" id="leads-closed" min="0" value="0">
             </div>
           </div>
+          <button type="button" class="btn-idk" data-field="leads-month" onclick="fillAllAcqBenchmarks()">No tengo estos números — usar promedios de mi especialidad</button>
         </div>
         <div class="step__nav">
           <button class="btn btn--ghost" onclick="prevStep()">← Atrás</button>
@@ -256,10 +259,74 @@
         </div>
       </div>
 
-      <!-- STEP 6: Simulador de Escalamiento -->
+      <!-- STEP 6: IA y Automatización -->
       <div class="step" data-step="6">
         <div class="step__header">
-          <span class="step__tag">Paso 6 de 7</span>
+          <span class="step__tag">Paso 6 de 8</span>
+          <h2 class="step__title">IA y automatización</h2>
+          <p class="step__desc">Queremos saber cómo gestiona tu clínica estos procesos hoy.</p>
+        </div>
+        <div class="step__body">
+          <div class="field">
+            <label class="field__label">¿Cómo agendan citas tus pacientes?</label>
+            <div class="field__radios">
+              <label class="radio"><input type="radio" name="ai-booking" value="manual" checked><span>Manual (teléfono / WhatsApp)</span></label>
+              <label class="radio"><input type="radio" name="ai-booking" value="link"><span>Link de agenda online</span></label>
+              <label class="radio"><input type="radio" name="ai-booking" value="auto"><span>Sistema automático integrado</span></label>
+            </div>
+          </div>
+          <div class="field">
+            <label class="field__label">¿Quién responde cuando llega un lead nuevo?</label>
+            <div class="field__radios">
+              <label class="radio"><input type="radio" name="ai-response" value="doctor" checked><span>El doctor directamente</span></label>
+              <label class="radio"><input type="radio" name="ai-response" value="receptionist"><span>Recepcionista</span></label>
+              <label class="radio"><input type="radio" name="ai-response" value="chatbot"><span>Chatbot / IA</span></label>
+              <label class="radio"><input type="radio" name="ai-response" value="nobody"><span>Nadie fuera de horario</span></label>
+            </div>
+          </div>
+          <div class="field">
+            <label class="field__label">¿Hacen seguimiento a leads que no agendaron?</label>
+            <div class="field__radios">
+              <label class="radio"><input type="radio" name="ai-followup" value="no" checked><span>No</span></label>
+              <label class="radio"><input type="radio" name="ai-followup" value="manual"><span>Sí, manualmente</span></label>
+              <label class="radio"><input type="radio" name="ai-followup" value="auto"><span>Sí, automatizado</span></label>
+            </div>
+          </div>
+          <div class="field">
+            <label class="field__label">¿Cómo confirman las citas?</label>
+            <div class="field__radios">
+              <label class="radio"><input type="radio" name="ai-confirm" value="call" checked><span>Llamada manual</span></label>
+              <label class="radio"><input type="radio" name="ai-confirm" value="message"><span>Mensaje manual (WhatsApp / SMS)</span></label>
+              <label class="radio"><input type="radio" name="ai-confirm" value="auto"><span>Automático</span></label>
+            </div>
+          </div>
+          <div class="field">
+            <label class="field__label">¿Contactan pacientes que dejaron de venir?</label>
+            <div class="field__radios">
+              <label class="radio"><input type="radio" name="ai-reactivation" value="no" checked><span>No</span></label>
+              <label class="radio"><input type="radio" name="ai-reactivation" value="manual"><span>A veces, manualmente</span></label>
+              <label class="radio"><input type="radio" name="ai-reactivation" value="auto"><span>Sistema automático</span></label>
+            </div>
+          </div>
+          <div class="field">
+            <label class="field__label">¿Usan algún sistema para gestionar pacientes y leads?</label>
+            <div class="field__radios">
+              <label class="radio"><input type="radio" name="ai-crm" value="no" checked><span>No, todo en la cabeza o papel</span></label>
+              <label class="radio"><input type="radio" name="ai-crm" value="excel"><span>Excel / Google Sheets</span></label>
+              <label class="radio"><input type="radio" name="ai-crm" value="crm"><span>CRM o sistema dedicado</span></label>
+            </div>
+          </div>
+        </div>
+        <div class="step__nav">
+          <button class="btn btn--ghost" onclick="prevStep()">← Atrás</button>
+          <button class="btn btn--gold" onclick="nextStep()">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- STEP 7: Simulador de Escalamiento -->
+      <div class="step" data-step="7">
+        <div class="step__header">
+          <span class="step__tag">Paso 7 de 8</span>
           <h2 class="step__title">Simulador de escalamiento</h2>
           <p class="step__desc">Selecciona el servicio que quieres escalar y simula cuánto invertir.</p>
         </div>
@@ -280,6 +347,7 @@
                 <span class="tooltip" data-tip="Costo por Lead — cuánto cuesta que una persona te contacte. Varía por especialidad y país.">?</span>
               </label>
               <div class="field__money"><span class="field__currency">$</span><input type="number" class="field__input" id="sim-cpl" min="0" value="8"></div>
+              <button type="button" class="btn-idk" data-field="sim-cpl" onclick="fillBenchmark('sim-cpl')">No lo sé — usar promedio</button>
             </div>
           </div>
           <div class="sim-results" id="sim-results">
@@ -292,8 +360,8 @@
         </div>
       </div>
 
-      <!-- STEP 7: Dashboard -->
-      <div class="step" data-step="7">
+      <!-- STEP 8: Dashboard -->
+      <div class="step" data-step="8">
         <div class="step__header">
           <span class="step__tag">Tu diagnóstico</span>
           <h2 class="step__title" id="dashboard-title">Diagnóstico de tu clínica</h2>
@@ -303,9 +371,14 @@
 
           <!-- KPIs -->
           <div class="kpis" id="kpis"></div>
+          <div class="insights" id="kpis-insight"></div>
 
           <!-- Semáforos -->
           <div class="health" id="health"></div>
+          <div class="insights" id="health-insight"></div>
+
+          <!-- Problema #1 -->
+          <div id="top-problem"></div>
 
           <!-- Ranking de servicios -->
           <h3 class="section-title">Ranking de servicios</h3>
@@ -315,15 +388,16 @@
           <h3 class="section-title">Capacidad operativa</h3>
           <div class="capacity" id="capacity"></div>
 
+          <!-- IA y Automatización -->
+          <h3 class="section-title">Nivel de automatización</h3>
+          <div id="ai-diagnosis"></div>
+
           <!-- Simulación -->
           <h3 class="section-title">Simulación de escalamiento</h3>
           <div class="sim-final" id="sim-final"></div>
 
-          <!-- CTA -->
-          <div class="cta-box">
-            <p class="cta-box__text">¿Quieres que un experto analice estos números contigo y te arme un plan para escalar tu servicio más rentable?</p>
-            <a href="https://wa.me/584141932869?text=Hola%20Johan%2C%20acabo%20de%20usar%20el%20Profit%20Compass%20y%20me%20gustar%C3%ADa%20hablar%20sobre%20los%20resultados%20de%20mi%20cl%C3%ADnica." class="btn btn--gold btn--lg" target="_blank" rel="noopener">Hablar con Johan por WhatsApp</a>
-          </div>
+          <!-- CTA dinámico -->
+          <div class="cta-box" id="cta-dynamic"></div>
 
         </div>
         <div class="step__nav">

@@ -89,7 +89,7 @@ a { color: inherit; text-decoration: none; }
 }
 .progress__bar::after {
   content: ''; position: absolute; left: 0; top: 0; height: 100%;
-  width: 14.28%; background: var(--gold); border-radius: 3px;
+  width: 12.5%; background: var(--gold); border-radius: 3px;
   transition: width 0.5s var(--out);
 }
 .progress__steps {
@@ -406,6 +406,65 @@ input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; marg
 }
 .foot__logo { font-family: var(--d); font-weight: 600; font-size: 0.95rem; color: var(--fg); display: block; margin-bottom: 4px; }
 .foot__copy { font-size: 0.72rem; color: var(--taupe); }
+
+/* ---- FIELD EXTRAS ---- */
+.field__desc {
+  font-size: 0.78rem; color: var(--taupe); margin-top: 6px;
+  line-height: 1.5; max-width: 500px;
+}
+.field__toggle {
+  display: flex; align-items: center; gap: 10px; cursor: pointer;
+  font-size: 0.85rem; color: var(--grey); margin-bottom: 4px;
+}
+.field__toggle input[type="checkbox"] {
+  width: 16px; height: 16px; accent-color: var(--gold); cursor: pointer;
+}
+.field__ticket-wrap { margin-top: 12px; }
+.btn-idk {
+  display: inline-block; margin-top: 12px; padding: 8px 16px;
+  background: rgba(201,168,76,0.06); border: 1px dashed rgba(201,168,76,0.3);
+  border-radius: 8px; color: var(--gold); font-family: var(--l);
+  font-size: 0.78rem; cursor: pointer; transition: background 0.3s, border-color 0.3s;
+}
+.btn-idk:hover { background: rgba(201,168,76,0.12); border-color: var(--gold); }
+
+/* ---- INSIGHT CARDS ---- */
+.insights {
+  display: grid; grid-template-columns: 1fr; gap: 10px;
+  margin-bottom: 28px;
+}
+.insight-card {
+  padding: 14px 18px;
+  background: rgba(201,168,76,0.04); border-left: 3px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+}
+.insight-card__text {
+  font-size: 0.84rem; color: var(--grey); line-height: 1.6;
+}
+
+/* ---- PROBLEM BOX ---- */
+.problem-box {
+  padding: 24px; margin: 32px 0;
+  background: rgba(229,57,53,0.06); border: 1px solid rgba(229,57,53,0.25);
+  border-left: 4px solid var(--red); border-radius: 0 var(--radius) var(--radius) 0;
+}
+.problem-box--good {
+  background: rgba(76,175,80,0.06); border-color: rgba(76,175,80,0.25);
+  border-left-color: var(--green);
+}
+.problem-box__tag {
+  font-family: var(--l); font-weight: 500; font-size: 0.72rem;
+  color: var(--red); letter-spacing: 0.08em; text-transform: uppercase;
+  display: block; margin-bottom: 8px;
+}
+.problem-box--good .problem-box__tag { color: var(--green); }
+.problem-box__title {
+  font-family: var(--d); font-weight: 600; font-size: 1.2rem;
+  color: var(--fg); margin-bottom: 10px;
+}
+.problem-box__text {
+  font-size: 0.88rem; color: var(--grey); line-height: 1.7;
+}
 
 /* ---- RESPONSIVE ---- */
 @media (max-width: 768px) {
