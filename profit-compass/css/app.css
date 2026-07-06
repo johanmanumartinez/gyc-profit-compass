@@ -154,6 +154,42 @@ input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; marg
 }
 .field__select:focus { outline: none; border-color: var(--gold); }
 
+/* Custom dropdown */
+.custom-select { position: relative; width: 100%; }
+.custom-select__trigger {
+  width: 100%; padding: 12px 14px; background: rgba(58,53,47,0.15);
+  border: 1px solid rgba(58,53,47,0.4); border-radius: 8px;
+  color: var(--fg); font-family: var(--b); font-size: 0.92rem;
+  cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+  transition: border-color 0.3s;
+}
+.custom-select__trigger:hover { border-color: var(--taupe); }
+.custom-select.open .custom-select__trigger { border-color: var(--gold); }
+.custom-select__trigger::after {
+  content: ''; width: 0; height: 0;
+  border-left: 5px solid transparent; border-right: 5px solid transparent;
+  border-bottom: 5px solid var(--taupe); transition: transform 0.3s;
+}
+.custom-select.open .custom-select__trigger::after { transform: rotate(180deg); }
+.custom-select__trigger.placeholder { color: var(--taupe); }
+.custom-select__options {
+  position: absolute; bottom: calc(100% + 4px); left: 0; right: 0;
+  background: var(--carbon); border: 1px solid var(--esp);
+  border-radius: 8px; max-height: 260px; overflow-y: auto;
+  z-index: 20; display: none;
+  box-shadow: 0 -8px 24px rgba(0,0,0,0.4);
+}
+.custom-select.open .custom-select__options { display: block; }
+.custom-select__option {
+  padding: 10px 14px; font-size: 0.88rem; color: var(--grey);
+  cursor: pointer; transition: background 0.2s, color 0.2s;
+}
+.custom-select__option:hover { background: rgba(201,168,76,0.1); color: var(--gold); }
+.custom-select__option.selected { color: var(--gold); }
+.custom-select__options::-webkit-scrollbar { width: 4px; }
+.custom-select__options::-webkit-scrollbar-track { background: transparent; }
+.custom-select__options::-webkit-scrollbar-thumb { background: var(--esp); border-radius: 4px; }
+
 .field__money { display: flex; align-items: stretch; }
 .field__currency {
   display: flex; align-items: center; padding: 0 12px;

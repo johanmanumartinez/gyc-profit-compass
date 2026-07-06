@@ -176,10 +176,39 @@ function removeRole(id) {
   roles = roles.filter(r => r.id !== id);
   renderRoles();
 }
-function toggleRoleOther(select, rid) {
-  const wrap = document.getElementById('role-other-' + rid);
-  if (wrap) wrap.style.display = select.value === 'Otro' ? 'block' : 'none';
+const ROLE_OPTIONS = ['Recepcionista', 'Asistente dental/médico', 'Doctor / Especialista', 'Enfermera', 'Higienista', 'Community Manager', 'Closer / Ventas', 'Administrador / Gerente', 'Limpieza', 'Contador', 'Otro'];
+
+function selectRole(rid, value) {
+  const trigger = document.querySelector(`#role-dropdown-${rid} .custom-select__trigger`);
+  const hidden = document.getElementById('role-value-' + rid);
+  const wrapper = document.getElementById('role-dropdown-' + rid);
+  if (trigger) {
+    trigger.textContent = value;
+    trigger.classList.remove('placeholder');
+  }
+  if (hidden) hidden.value = value;
+  if (wrapper) wrapper.classList.remove('open');
+  // Show/hide other
+  const otherWrap = document.getElementById('role-other-' + rid);
+  if (otherWrap) otherWrap.style.display = value === 'Otro' ? 'block' : 'none';
+  // Mark selected
+  wrapper?.querySelectorAll('.custom-select__option').forEach(o => {
+    o.classList.toggle('selected', o.textContent === value);
+  });
 }
+
+function toggleDropdown(rid) {
+  const wrapper = document.getElementById('role-dropdown-' + rid);
+  if (wrapper) wrapper.classList.toggle('open');
+}
+
+// Close dropdowns on outside click
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.custom-select')) {
+    document.querySelectorAll('.custom-select.open').forEach(d => d.classList.remove('open'));
+  }
+});
+
 function renderRoles() {
   const list = document.getElementById('payroll-list');
   list.innerHTML = roles.map((r, i) => `
@@ -191,20 +220,13 @@ function renderRoles() {
       <div class="field-row">
         <div class="field">
           <label class="field__label">Cargo</label>
-          <select class="field__select role-select" onchange="toggleRoleOther(this, ${r.id})">
-            <option value="">Selecciona un cargo</option>
-            <option value="Recepcionista">Recepcionista</option>
-            <option value="Asistente dental/médico">Asistente dental/médico</option>
-            <option value="Doctor / Especialista">Doctor / Especialista</option>
-            <option value="Enfermera">Enfermera</option>
-            <option value="Higienista">Higienista</option>
-            <option value="Community Manager">Community Manager</option>
-            <option value="Closer / Ventas">Closer / Ventas</option>
-            <option value="Administrador / Gerente">Administrador / Gerente</option>
-            <option value="Limpieza">Limpieza</option>
-            <option value="Contador">Contador</option>
-            <option value="Otro">Otro</option>
-          </select>
+          <div class="custom-select" id="role-dropdown-${r.id}">
+            <input type="hidden" class="role-value" id="role-value-${r.id}" value="">
+            <div class="custom-select__trigger placeholder" onclick="toggleDropdown(${r.id})">Selecciona un cargo</div>
+            <div class="custom-select__options">
+              ${ROLE_OPTIONS.map(opt => `<div class="custom-select__option" onclick="selectRole(${r.id}, '${opt}')">${opt}</div>`).join('')}
+            </div>
+          </div>
         </div>
         <div class="field">
           <label class="field__label">Cantidad</label>
@@ -217,9 +239,7 @@ function renderRoles() {
       </div>
       <div class="field-row">
         <div class="field">
-          <label class="field__label">Costo total por persona/mes
-            <span class="tooltip" data-tip="Salario + comisiones + cargas sociales + beneficios. Todo incluido.">?</span>
-          </label>
+          <label class="field__label">Costo total por persona/mes</label>
           <div class="field__money"><span class="field__currency">$</span><input type="number" class="field__input role-cost" min="0" value="0" oninput="updatePayrollSummary()"></div>
           <p class="field__desc">Incluye salario, comisiones, cargas sociales y beneficios.</p>
         </div>
