@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profit Compass — Grow Your Clinic</title>
+  <meta name="description" content="Descubre cuánto dinero deja tu clínica en la mesa. Calculadora interactiva de rentabilidad para clínicas de salud privada.">
+  <meta property="og:title" content="Profit Compass — Grow Your Clinic">
+  <meta property="og:description" content="Descubre cuánto dinero deja tu clínica en la mesa cada mes.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&family=Schibsted+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar__inner">
+      <a href="https://growyourclinic.site" class="topbar__logo">Grow Your Clinic</a>
+      <span class="topbar__badge">Profit Compass</span>
+    </div>
+  </header>
+
+  <!-- APP CONTAINER -->
+  <main class="app" id="app">
+
+    <!-- GATE: desactivado temporalmente para testing -->
+    <!--
+    <section class="gate active" id="gate">
+      <div class="gate__box">
+        <span class="gate__icon">◎</span>
+        <h1 class="gate__h1">Profit Compass</h1>
+        <p class="gate__sub">Descubre exactamente cuánto dinero deja tu clínica en la mesa cada mes — y cómo recuperarlo.</p>
+        <div class="gate__form" id="gate-form">
+          <iframe src="https://api.leadconnectorhq.com/widget/survey/wM4xyDoSm3BY6hIFqP2c" style="border:none;width:100%;min-height:500px;" scrolling="no" id="wM4xyDoSm3BY6hIFqP2c" title=""></iframe>
+        </div>
+      </div>
+    </section>
+    -->
+
+    <!-- WIZARD -->
+    <section class="wizard" id="wizard">
+
+      <!-- Progress bar -->
+      <div class="progress">
+        <div class="progress__bar" id="progress-bar"></div>
+        <div class="progress__steps" id="progress-steps"></div>
+      </div>
+
+      <!-- STEP 1: Perfil de la Clínica -->
+      <div class="step active" data-step="1">
+        <div class="step__header">
+          <span class="step__tag">Paso 1 de 8</span>
+          <h2 class="step__title">Perfil de tu clínica</h2>
+          <p class="step__desc">Cuéntanos sobre tu operación actual para personalizar tu diagnóstico.</p>
+        </div>
+        <div class="step__body">
+          <div class="field">
+            <label class="field__label">Nombre de la clínica</label>
+            <input type="text" class="field__input" id="clinic-name" placeholder="Ej: Clínica Dental Sonríe">
+          </div>
+          <div class="field">
+            <label class="field__label">Especialidad principal</label>
+            <div class="field__radios" id="specialty-radios">
+              <label class="radio"><input type="radio" name="specialty" value="Odontología"><span>Odontología</span></label>
+              <label class="radio"><input type="radio" name="specialty" value="Estética no quirúrgica"><span>Estética no quirúrgica</span></label>
+              <label class="radio"><input type="radio" name="specialty" value="Estética quirúrgica"><span>Estética quirúrgica</span></label>
+              <label class="radio"><input type="radio" name="specialty" value="Dermatología"><span>Dermatología</span></label>
+              <label class="radio"><input type="radio" name="specialty" value="Oftalmología"><span>Oftalmología</span></label>
+              <label class="radio"><input type="radio" name="specialty" value="Fisioterapia"><span>Fisioterapia</span></label>
+              <label class="radio"><input type="radio" name="specialty" value="Cirugía general"><span>Cirugía general</span></label>
+              <label class="radio"><input type="radio" name="specialty" value="Otro"><span>Otro</span></label>
+            </div>
+          </div>
+          <div class="field field--conditional" id="specialty-other-wrap" style="display:none;">
+            <label class="field__label">Especifica tu especialidad</label>
+            <input type="text" class="field__input" id="specialty-other" placeholder="Ej: Medicina regenerativa">
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label class="field__label">Días operativos por semana</label>
+              <input type="number" class="field__input" id="days-week" min="1" max="7" value="6">
+            </div>
+            <div class="field">
+              <label class="field__label">Horas por día</label>
+              <input type="number" class="field__input" id="hours-day" min="1" max="24" value="10">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label class="field__label">Número de sedes</label>
+              <input type="number" class="field__input" id="num-locations" min="1" max="50" value="1">
+            </div>
+            <div class="field">
+              <label class="field__label">Sillas / unidades operativas por sede
+                <span class="tooltip" data-tip="Cuántos profesionales pueden atender al mismo tiempo en una sede.">?</span>
+              </label>
+              <input type="number" class="field__input" id="num-chairs" min="1" max="50" value="2">
+              <p class="field__desc">Cuántos profesionales pueden atender pacientes al mismo tiempo en una sede.</p>
+            </div>
+          </div>
+        </div>
+        <div class="step__nav">
+          <div></div>
+          <button class="btn btn--gold" onclick="nextStep()">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- STEP 2: Catálogo de Servicios -->
+      <div class="step" data-step="2">
+        <div class="step__header">
+          <span class="step__tag">Paso 2 de 8</span>
+          <h2 class="step__title">Tus servicios</h2>
+          <p class="step__desc">Agrega cada procedimiento que ofrece tu clínica. Empieza con los más importantes.</p>
+        </div>
+        <div class="step__body">
+          <div id="services-list"></div>
+          <button class="btn btn--outline" id="add-service" onclick="addService()">+ Agregar servicio</button>
+        </div>
+        <div class="step__nav">
+          <button class="btn btn--ghost" onclick="prevStep()">← Atrás</button>
+          <button class="btn btn--gold" onclick="nextStep()">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Costos Fijos -->
+      <div class="step" data-step="3">
+        <div class="step__header">
+          <span class="step__tag">Paso 3 de 8</span>
+          <h2 class="step__title">Costos fijos mensuales</h2>
+          <p class="step__desc">Todo lo que pagas cada mes independientemente de cuántos pacientes atiendas.</p>
+        </div>
+        <div class="step__body">
+          <div class="costs-grid">
+            <div class="field">
+              <label class="field__label">Alquiler / Renta</label>
+              <div class="field__money"><span class="field__currency">$</span><input type="number" class="field__input" id="cost-rent" min="0" value="0"></div>
+            </div>
+            <div class="field">
+              <label class="field__label">Servicios (luz, agua, internet)</label>
+              <div class="field__money"><span class="field__currency">$</span><input type="number" class="field__input" id="cost-utilities" min="0" value="0"></div>
+            </div>
+            <div class="field">
+              <label class="field__label">Seguros</label>
+              <div class="field__money"><span class="field__currency">$</span><input type="number" class="field__input" id="cost-insurance" min="0" value="0"></div>
+            </div>
+            <div class="field">
+              <label class="field__label">Software / Herramientas</label>
+              <div class="field__money"><span class="field__currency">$</span><input type="number" class="field__input" id="cost-software" min="0" value="0"></div>
+            </div>
+            <div class="field">
+              <label class="field__label">Créditos / Préstamos</label>
+              <div class="field__money"><span class="field__currency">$</span><input type="number" class="field__input" id="cost-loans" min="0" value="0"></div>
+            </div>
+            <div class="field">
+              <label class="field__label">Mantenimiento / Equipos</label>
+              <div class="field__money"><span class="field__currency">$</span><input type="number" class="field__input" id="cost-maintenance" min="0" value="0"></div>
+            </div>
+            <div class="field">
+              <label class="field__label">Contabilidad / Legal</label>
+              <div class="field__money"><span class="field__currency">$</span><input type="number" class="field__input" id="cost-legal" min="0" value="0"></div>
+            </div>
+            <div class="field">
+              <label class="field__label">Marketing fijo (sin ads)
+                <span class="tooltip" data-tip="Community manager, diseñador, agencia — sin contar lo que gastas en anuncios.">?</span>
+              </label>
+              <div class="field__money"><span class="field__currency">$</span><input type="number" class="field__input" id="cost-marketing" min="0" value="0"></div>
+            </div>
+            <div class="field">
+              <label class="field__label">Impuestos operativos</label>
+              <div class="field__money"><span class="field__currency">$</span><input type="number" class="field__input" id="cost-taxes" min="0" value="0"></div>
+            </div>
+            <div class="field">
+              <label class="field__label">Otros gastos fijos</label>
+              <div class="field__money"><span class="field__currency">$</span><input type="number" class="field__input" id="cost-other" min="0" value="0"></div>
+            </div>
+          </div>
+          <div class="summary-mini" id="costs-summary">
+            <span class="summary-mini__label">Total costos fijos:</span>
+            <span class="summary-mini__value" id="total-fixed-costs">$0</span>
+          </div>
+        </div>
+        <div class="step__nav">
+          <button class="btn btn--ghost" onclick="prevStep()">← Atrás</button>
+          <button class="btn btn--gold" onclick="nextStep()">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- STEP 4: Nómina -->
+      <div class="step" data-step="4">
+        <div class="step__header">
+          <span class="step__tag">Paso 4 de 8</span>
+          <h2 class="step__title">Tu equipo</h2>
+          <p class="step__desc">Agrega cada rol de tu clínica con su costo mensual total (salario + comisiones + cargas).</p>
+        </div>
+        <div class="step__body">
+          <div id="payroll-list"></div>
+          <button class="btn btn--outline" onclick="addRole()">+ Agregar rol</button>
+          <div class="summary-mini" id="payroll-summary">
+            <span class="summary-mini__label">Nómina total:</span>
+            <span class="summary-mini__value" id="total-payroll">$0</span>
+          </div>
+        </div>
+        <div class="step__nav">
+          <button class="btn btn--ghost" onclick="prevStep()">← Atrás</button>
+          <button class="btn btn--gold" onclick="nextStep()">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- STEP 5: Adquisición -->
+      <div class="step" data-step="5">
+        <div class="step__header">
+          <span class="step__tag">Paso 5 de 8</span>
+          <h2 class="step__title">Adquisición de pacientes</h2>
+          <p class="step__desc">¿Cómo llegan tus pacientes hoy?</p>
+        </div>
+        <div class="step__body">
+          <div class="field">
+            <label class="field__label">¿Inviertes en anuncios pagados?</label>
+            <div class="field__radios">
+              <label class="radio"><input type="radio" name="has-ads" value="yes" id="has-ads-yes"><span>Sí, actualmente invierto</span></label>
+              <label class="radio"><input type="radio" name="has-ads" value="no" checked><span>No</span></label>
+            </div>
+          </div>
+          <div class="field field--conditional" id="ads-spend-wrap" style="display:none;">
+            <label class="field__label">Gasto mensual en anuncios</label>
+            <div class="field__money"><span class="field__currency">$</span><input type="number" class="field__input" id="ad-spend" min="0" value="0"></div>
+            <p class="field__desc">Lo que inviertes en Facebook Ads, Google Ads, Instagram Ads, etc. Solo el presupuesto de anuncios.</p>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label class="field__label">Leads nuevos por mes
+                <span class="tooltip" data-tip="Personas que contactan tu clínica por primera vez por cualquier canal.">?</span>
+              </label>
+              <input type="number" class="field__input" id="leads-month" min="0" value="0">
+            </div>
+            <div class="field">
+              <label class="field__label">De esos, ¿cuántos agendan cita?</label>
+              <input type="number" class="field__input" id="leads-booked" min="0" value="0">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label class="field__label">¿Cuántos asisten a la cita?</label>
+              <input type="number" class="field__input" id="leads-showed" min="0" value="0">
+            </div>
+            <div class="field">
+              <label class="field__label">¿Cuántos compran o inician tratamiento?</label>
+              <input type="number" class="field__input" id="leads-closed" min="0" value="0">
+            </div>
+          </div>
+          <button type="button" class="btn-idk" data-field="leads-month" onclick="fillAllAcqBenchmarks()">No tengo estos números — usar promedios de mi especialidad</button>
+        </div>
+        <div class="step__nav">
+          <button class="btn btn--ghost" onclick="prevStep()">← Atrás</button>
+          <button class="btn btn--gold" onclick="nextStep()">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- STEP 6: IA y Automatización -->
+      <div class="step" data-step="6">
+        <div class="step__header">
+          <span class="step__tag">Paso 6 de 8</span>
+          <h2 class="step__title">IA y automatización</h2>
+          <p class="step__desc">Queremos saber cómo gestiona tu clínica estos procesos hoy.</p>
+        </div>
+        <div class="step__body">
+          <div class="field">
+            <label class="field__label">¿Cómo agendan citas tus pacientes?</label>
+            <div class="field__radios">
+              <label class="radio"><input type="radio" name="ai-booking" value="manual" checked><span>Manual (teléfono / WhatsApp)</span></label>
+              <label class="radio"><input type="radio" name="ai-booking" value="link"><span>Link de agenda online</span></label>
+              <label class="radio"><input type="radio" name="ai-booking" value="auto"><span>Sistema automático integrado</span></label>
+            </div>
+          </div>
+          <div class="field">
+            <label class="field__label">¿Quién responde cuando llega un lead nuevo?</label>
+            <div class="field__radios">
+              <label class="radio"><input type="radio" name="ai-response" value="doctor" checked><span>El doctor directamente</span></label>
+              <label class="radio"><input type="radio" name="ai-response" value="receptionist"><span>Recepcionista</span></label>
+              <label class="radio"><input type="radio" name="ai-response" value="chatbot"><span>Chatbot / IA</span></label>
+              <label class="radio"><input type="radio" name="ai-response" value="nobody"><span>Nadie fuera de horario</span></label>
+            </div>
+          </div>
+          <div class="field">
+            <label class="field__label">¿Hacen seguimiento a leads que no agendaron?</label>
+            <div class="field__radios">
+              <label class="radio"><input type="radio" name="ai-followup" value="no" checked><span>No</span></label>
+              <label class="radio"><input type="radio" name="ai-followup" value="manual"><span>Sí, manualmente</span></label>
+              <label class="radio"><input type="radio" name="ai-followup" value="auto"><span>Sí, automatizado</span></label>
+            </div>
+          </div>
+          <div class="field">
+            <label class="field__label">¿Cómo confirman las citas?</label>
+            <div class="field__radios">
+              <label class="radio"><input type="radio" name="ai-confirm" value="call" checked><span>Llamada manual</span></label>
+              <label class="radio"><input type="radio" name="ai-confirm" value="message"><span>Mensaje manual (WhatsApp / SMS)</span></label>
+              <label class="radio"><input type="radio" name="ai-confirm" value="auto"><span>Automático</span></label>
+            </div>
+          </div>
+          <div class="field">
+            <label class="field__label">¿Contactan pacientes que dejaron de venir?</label>
+            <div class="field__radios">
+              <label class="radio"><input type="radio" name="ai-reactivation" value="no" checked><span>No</span></label>
+              <label class="radio"><input type="radio" name="ai-reactivation" value="manual"><span>A veces, manualmente</span></label>
+              <label class="radio"><input type="radio" name="ai-reactivation" value="auto"><span>Sistema automático</span></label>
+            </div>
+          </div>
+          <div class="field">
+            <label class="field__label">¿Usan algún sistema para gestionar pacientes y leads?</label>
+            <div class="field__radios">
+              <label class="radio"><input type="radio" name="ai-crm" value="no" checked><span>No, todo en la cabeza o papel</span></label>
+              <label class="radio"><input type="radio" name="ai-crm" value="excel"><span>Excel / Google Sheets</span></label>
+              <label class="radio"><input type="radio" name="ai-crm" value="crm"><span>CRM o sistema dedicado</span></label>
+            </div>
+          </div>
+        </div>
+        <div class="step__nav">
+          <button class="btn btn--ghost" onclick="prevStep()">← Atrás</button>
+          <button class="btn btn--gold" onclick="nextStep()">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- STEP 7: Simulador de Escalamiento -->
+      <div class="step" data-step="7">
+        <div class="step__header">
+          <span class="step__tag">Paso 7 de 8</span>
+          <h2 class="step__title">Simulador de escalamiento</h2>
+          <p class="step__desc">Selecciona el servicio que quieres escalar y simula cuánto invertir.</p>
+        </div>
+        <div class="step__body">
+          <div class="field">
+            <label class="field__label">Servicio a escalar</label>
+            <select class="field__select" id="scale-service"></select>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label class="field__label">Presupuesto diario de ads
+                <span class="tooltip" data-tip="Cuánto invertirías por día en anuncios para este servicio.">?</span>
+              </label>
+              <div class="field__money"><span class="field__currency">$</span><input type="number" class="field__input" id="sim-daily-budget" min="0" value="20"></div>
+            </div>
+            <div class="field">
+              <label class="field__label">CPL estimado
+                <span class="tooltip" data-tip="Costo por Lead — cuánto cuesta que una persona te contacte. Varía por especialidad y país.">?</span>
+              </label>
+              <div class="field__money"><span class="field__currency">$</span><input type="number" class="field__input" id="sim-cpl" min="0" value="8"></div>
+              <button type="button" class="btn-idk" data-field="sim-cpl" onclick="fillBenchmark('sim-cpl')">No lo sé — usar promedio</button>
+            </div>
+          </div>
+          <div class="sim-results" id="sim-results">
+            <!-- Se llena por JS -->
+          </div>
+        </div>
+        <div class="step__nav">
+          <button class="btn btn--ghost" onclick="prevStep()">← Atrás</button>
+          <button class="btn btn--gold" onclick="nextStep()">Ver mi diagnóstico →</button>
+        </div>
+      </div>
+
+      <!-- STEP 8: Dashboard -->
+      <div class="step" data-step="8">
+        <div class="step__header">
+          <span class="step__tag">Tu diagnóstico</span>
+          <h2 class="step__title" id="dashboard-title">Diagnóstico de tu clínica</h2>
+          <p class="step__desc">Aquí está la radiografía financiera completa de tu negocio.</p>
+        </div>
+        <div class="step__body">
+
+          <!-- KPIs -->
+          <div class="kpis" id="kpis"></div>
+          <div class="insights" id="kpis-insight"></div>
+
+          <!-- Semáforos -->
+          <div class="health" id="health"></div>
+          <div class="insights" id="health-insight"></div>
+
+          <!-- Problema #1 -->
+          <div id="top-problem"></div>
+
+          <!-- Ranking de servicios -->
+          <h3 class="section-title">Ranking de servicios</h3>
+          <div class="ranking-table" id="ranking-table"></div>
+
+          <!-- Capacidad -->
+          <h3 class="section-title">Capacidad operativa</h3>
+          <div class="capacity" id="capacity"></div>
+
+          <!-- IA y Automatización -->
+          <h3 class="section-title">Nivel de automatización</h3>
+          <div id="ai-diagnosis"></div>
+
+          <!-- Simulación -->
+          <h3 class="section-title">Simulación de escalamiento</h3>
+          <div class="sim-final" id="sim-final"></div>
+
+          <!-- CTA dinámico -->
+          <div class="cta-box" id="cta-dynamic"></div>
+
+        </div>
+        <div class="step__nav">
+          <button class="btn btn--ghost" onclick="prevStep()">← Editar datos</button>
+          <button class="btn btn--outline" onclick="exportPDF()">📄 Exportar PDF</button>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span class="foot__logo">Grow Your Clinic</span>
+    <p class="foot__copy">© 2026 Grow Your Clinic — Johan Martinez</p>
+  </footer>
+
+  <!-- <script src="https://link.msgsndr.com/js/form_embed.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
