@@ -117,7 +117,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Add first role
-  addRole();
+  const firstId = Date.now();
+  roles.push({ id: firstId });
+  appendRoleCard(firstId, 1);
 
   // Simulation live update
   ['sim-daily-budget', 'sim-cpl'].forEach(id => {
@@ -169,12 +171,31 @@ function getServiceData() {
 function addRole() {
   const id = Date.now();
   roles.push({ id });
-  renderRoles();
+  appendRoleCard(id, roles.length);
+  updateRemoveButtons();
 }
 function removeRole(id) {
   if (roles.length <= 1) return;
+  const card = document.querySelector(`.role-card[data-rid="${id}"]`);
+  if (card) card.remove();
   roles = roles.filter(r => r.id !== id);
-  renderRoles();
+  // Renumber headers
+  document.querySelectorAll('.role-card').forEach((c, i) => {
+    c.querySelector('.service-card__num').textContent = 'Rol ' + (i + 1);
+  });
+  updateRemoveButtons();
+  updatePayrollSummary();
+}
+function updateRemoveButtons() {
+  const cards = document.querySelectorAll('.role-card');
+  cards.forEach(c => {
+    const btn = c.querySelector('.role-card__remove');
+    if (roles.length <= 1) {
+      if (btn) btn.style.display = 'none';
+    } else {
+      if (btn) btn.style.display = '';
+    }
+  });
 }
 const ROLE_OPTIONS = ['Recepcionista', 'Asistente dental/médico', 'Doctor / Especialista', 'Enfermera', 'Higienista', 'Community Manager', 'Closer / Ventas', 'Administrador / Gerente', 'Limpieza', 'Contador', 'Otro'];
 
@@ -209,22 +230,24 @@ document.addEventListener('click', (e) => {
   }
 });
 
-function renderRoles() {
+function appendRoleCard(id, index) {
   const list = document.getElementById('payroll-list');
-  list.innerHTML = roles.map((r, i) => `
-    <div class="role-card" data-rid="${r.id}">
+  const card = document.createElement('div');
+  card.className = 'role-card';
+  card.setAttribute('data-rid', id);
+  card.innerHTML = `
       <div class="role-card__header">
-        <span class="service-card__num" style="font-size:1rem;">Rol ${i + 1}</span>
-        ${roles.length > 1 ? `<button class="role-card__remove" onclick="removeRole(${r.id})">Eliminar</button>` : ''}
+        <span class="service-card__num" style="font-size:1rem;">Rol ${index}</span>
+        <button class="role-card__remove" onclick="removeRole(${id})" style="${roles.length <= 1 ? 'display:none' : ''}">Eliminar</button>
       </div>
       <div class="field-row">
         <div class="field">
           <label class="field__label">Cargo</label>
-          <div class="custom-select" id="role-dropdown-${r.id}">
-            <input type="hidden" class="role-value" id="role-value-${r.id}" value="">
-            <div class="custom-select__trigger placeholder" onclick="toggleDropdown(${r.id})">Selecciona un cargo</div>
+          <div class="custom-select" id="role-dropdown-${id}">
+            <input type="hidden" class="role-value" id="role-value-${id}" value="">
+            <div class="custom-select__trigger placeholder" onclick="toggleDropdown(${id})">Selecciona un cargo</div>
             <div class="custom-select__options">
-              ${ROLE_OPTIONS.map(opt => `<div class="custom-select__option" onclick="selectRole(${r.id}, '${opt}')">${opt}</div>`).join('')}
+              ${ROLE_OPTIONS.map(opt => `<div class="custom-select__option" onclick="selectRole(${id}, '${opt}')">${opt}</div>`).join('')}
             </div>
           </div>
         </div>
@@ -233,7 +256,7 @@ function renderRoles() {
           <input type="number" class="field__input role-qty" min="1" value="1">
         </div>
       </div>
-      <div class="field field--conditional role-other-wrap" id="role-other-${r.id}" style="display:none;">
+      <div class="field field--conditional role-other-wrap" id="role-other-${id}" style="display:none;">
         <label class="field__label">Especifica el cargo</label>
         <input type="text" class="field__input role-other" placeholder="Ej: Coordinador de quirófano">
       </div>
@@ -244,8 +267,8 @@ function renderRoles() {
           <p class="field__desc">Incluye salario, comisiones, cargas sociales y beneficios.</p>
         </div>
       </div>
-    </div>
-  `).join('');
+  `;
+  list.appendChild(card);
 }
 
 function getPayrollTotal() {
