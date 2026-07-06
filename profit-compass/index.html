@@ -26,20 +26,6 @@
   <!-- APP CONTAINER -->
   <main class="app" id="app">
 
-    <!-- GATE: desactivado temporalmente para testing -->
-    <!--
-    <section class="gate active" id="gate">
-      <div class="gate__box">
-        <span class="gate__icon">◎</span>
-        <h1 class="gate__h1">Profit Compass</h1>
-        <p class="gate__sub">Descubre exactamente cuánto dinero deja tu clínica en la mesa cada mes — y cómo recuperarlo.</p>
-        <div class="gate__form" id="gate-form">
-          <iframe src="https://api.leadconnectorhq.com/widget/survey/wM4xyDoSm3BY6hIFqP2c" style="border:none;width:100%;min-height:500px;" scrolling="no" id="wM4xyDoSm3BY6hIFqP2c" title=""></iframe>
-        </div>
-      </div>
-    </section>
-    -->
-
     <!-- WIZARD -->
     <section class="wizard" id="wizard">
 
@@ -59,7 +45,7 @@
         <div class="step__body">
           <div class="field">
             <label class="field__label">Nombre de la clínica</label>
-            <input type="text" class="field__input" id="clinic-name" placeholder="Ej: Clínica Dental Sonríe">
+            <input type="text" class="field__input" id="clinic-name" placeholder="Ej: Nombre de tu clínica">
           </div>
           <div class="field">
             <label class="field__label">Especialidad principal</label>
@@ -108,16 +94,80 @@
         </div>
       </div>
 
-      <!-- STEP 2: Catálogo de Servicios -->
+      <!-- STEP 2: Servicio Estrella -->
       <div class="step" data-step="2">
         <div class="step__header">
           <span class="step__tag">Paso 2 de 8</span>
-          <h2 class="step__title">Tus servicios</h2>
-          <p class="step__desc">Agrega cada procedimiento que ofrece tu clínica. Empieza con los más importantes.</p>
+          <h2 class="step__title">Tu servicio estrella</h2>
+          <p class="step__desc">Vamos a identificar el procedimiento con mayor potencial de tu clínica y analizar cómo escalarlo.</p>
         </div>
         <div class="step__body">
-          <div id="services-list"></div>
-          <button class="btn btn--outline" id="add-service" onclick="addService()">+ Agregar servicio</button>
+          <div class="guide-box">
+            <p class="guide-box__title">¿Cómo identificarlo?</p>
+            <p class="guide-box__text">Piensa en el servicio que cumple la mayoría de estos criterios:</p>
+            <ul class="guide-box__list">
+              <li>Es el que más realizas o el que más te buscan</li>
+              <li>Te deja buena ganancia por procedimiento</li>
+              <li>Te gustaría potenciarlo aún más de lo que ya está</li>
+              <li>Los pacientes lo buscan activamente</li>
+            </ul>
+          </div>
+
+          <div class="field">
+            <label class="field__label">Nombre del procedimiento</label>
+            <input type="text" class="field__input" id="svc-name" placeholder="Ej: Nombre de tu procedimiento">
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label class="field__label">Precio al paciente</label>
+              <div class="field__money"><span class="field__currency">$</span><input type="number" class="field__input" id="svc-price" min="0" value="0"></div>
+              <p class="field__desc">El precio de lista o catálogo — lo que publicas en redes, página web o le dices al paciente antes de descuentos.</p>
+            </div>
+            <div class="field">
+              <label class="field__label">Costo directo por procedimiento
+                <span class="tooltip" data-tip="Materiales, insumos, laboratorio, descartables — lo que gastas cada vez que haces este procedimiento.">?</span>
+              </label>
+              <div class="field__money"><span class="field__currency">$</span><input type="number" class="field__input" id="svc-cost" min="0" value="0"></div>
+              <p class="field__desc">Materiales, insumos, laboratorio y descartables por cada procedimiento. No incluyas salarios ni alquiler.</p>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label class="field__label">Duración promedio (minutos)</label>
+              <input type="number" class="field__input" id="svc-duration" min="1" value="60">
+            </div>
+            <div class="field">
+              <label class="field__label">Pacientes/mes de este servicio</label>
+              <input type="number" class="field__input" id="svc-patients" min="0" value="0">
+              <p class="field__desc">Cuántos pacientes atiendes actualmente por mes con este procedimiento específico.</p>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label class="field__label">Profesionales que realizan este procedimiento</label>
+              <input type="number" class="field__input" id="svc-professionals" min="1" value="1">
+              <p class="field__desc">Cuántas personas en tu clínica pueden hacer este procedimiento.</p>
+            </div>
+            <div class="field">
+              <label class="field__label">¿Es recurrente?</label>
+              <div class="field__radios" style="flex-direction:row;gap:12px;">
+                <label class="radio" style="flex:1;"><input type="radio" name="svc-recur" value="yes"><span>Sí</span></label>
+                <label class="radio" style="flex:1;"><input type="radio" name="svc-recur" value="no" checked><span>No</span></label>
+              </div>
+              <p class="field__desc">¿El paciente vuelve a hacerse este procedimiento periódicamente?</p>
+            </div>
+          </div>
+          <div class="field">
+            <label class="field__toggle">
+              <input type="checkbox" id="svc-ticket-toggle" onchange="toggleTicket()">
+              <span>El precio real difiere del precio de lista</span>
+            </label>
+            <p class="field__desc">Activa esto si sueles dar descuentos o hacer upsells. Pon lo que realmente cobras en promedio. Si no, usaremos el precio de lista.</p>
+            <div id="ticket-wrap" style="display:none;">
+              <label class="field__label">Ticket real promedio</label>
+              <div class="field__money"><span class="field__currency">$</span><input type="number" class="field__input" id="svc-ticket" min="0" value="0"></div>
+            </div>
+          </div>
         </div>
         <div class="step__nav">
           <button class="btn btn--ghost" onclick="prevStep()">← Atrás</button>
@@ -188,7 +238,7 @@
         </div>
       </div>
 
-      <!-- STEP 4: Nómina -->
+      <!-- STEP 4: Equipo -->
       <div class="step" data-step="4">
         <div class="step__header">
           <span class="step__tag">Paso 4 de 8</span>
@@ -214,11 +264,11 @@
         <div class="step__header">
           <span class="step__tag">Paso 5 de 8</span>
           <h2 class="step__title">Adquisición de pacientes</h2>
-          <p class="step__desc">¿Cómo llegan tus pacientes hoy?</p>
+          <p class="step__desc">¿Cómo llegan los pacientes a tu servicio estrella hoy?</p>
         </div>
         <div class="step__body">
           <div class="field">
-            <label class="field__label">¿Inviertes en anuncios pagados?</label>
+            <label class="field__label">¿Inviertes en anuncios pagados para este servicio?</label>
             <div class="field__radios">
               <label class="radio"><input type="radio" name="has-ads" value="yes" id="has-ads-yes"><span>Sí, actualmente invierto</span></label>
               <label class="radio"><input type="radio" name="has-ads" value="no" checked><span>No</span></label>
@@ -232,7 +282,7 @@
           <div class="field-row">
             <div class="field">
               <label class="field__label">Leads nuevos por mes
-                <span class="tooltip" data-tip="Personas que contactan tu clínica por primera vez por cualquier canal.">?</span>
+                <span class="tooltip" data-tip="Personas que contactan tu clínica por primera vez preguntando por este servicio.">?</span>
               </label>
               <input type="number" class="field__input" id="leads-month" min="0" value="0">
             </div>
@@ -251,7 +301,7 @@
               <input type="number" class="field__input" id="leads-closed" min="0" value="0">
             </div>
           </div>
-          <button type="button" class="btn-idk" data-field="leads-month" onclick="fillAllAcqBenchmarks()">No tengo estos números — usar promedios de mi especialidad</button>
+          <button type="button" class="btn-idk" onclick="fillAllAcqBenchmarks()">No tengo estos números — usar promedios de mi especialidad</button>
         </div>
         <div class="step__nav">
           <button class="btn btn--ghost" onclick="prevStep()">← Atrás</button>
@@ -323,18 +373,14 @@
         </div>
       </div>
 
-      <!-- STEP 7: Simulador de Escalamiento -->
+      <!-- STEP 7: Simulador -->
       <div class="step" data-step="7">
         <div class="step__header">
           <span class="step__tag">Paso 7 de 8</span>
           <h2 class="step__title">Simulador de escalamiento</h2>
-          <p class="step__desc">Selecciona el servicio que quieres escalar y simula cuánto invertir.</p>
+          <p class="step__desc">Simula cuánto necesitas invertir para llenar la agenda de tu servicio estrella.</p>
         </div>
         <div class="step__body">
-          <div class="field">
-            <label class="field__label">Servicio a escalar</label>
-            <select class="field__select" id="scale-service"></select>
-          </div>
           <div class="field-row">
             <div class="field">
               <label class="field__label">Presupuesto diario de ads
@@ -347,12 +393,10 @@
                 <span class="tooltip" data-tip="Costo por Lead — cuánto cuesta que una persona te contacte. Varía por especialidad y país.">?</span>
               </label>
               <div class="field__money"><span class="field__currency">$</span><input type="number" class="field__input" id="sim-cpl" min="0" value="8"></div>
-              <button type="button" class="btn-idk" data-field="sim-cpl" onclick="fillBenchmark('sim-cpl')">No lo sé — usar promedio</button>
+              <button type="button" class="btn-idk" onclick="fillBenchmark('sim-cpl')">No lo sé — usar promedio</button>
             </div>
           </div>
-          <div class="sim-results" id="sim-results">
-            <!-- Se llena por JS -->
-          </div>
+          <div class="sim-results" id="sim-results"></div>
         </div>
         <div class="step__nav">
           <button class="btn btn--ghost" onclick="prevStep()">← Atrás</button>
@@ -365,9 +409,12 @@
         <div class="step__header">
           <span class="step__tag">Tu diagnóstico</span>
           <h2 class="step__title" id="dashboard-title">Diagnóstico de tu clínica</h2>
-          <p class="step__desc">Aquí está la radiografía financiera completa de tu negocio.</p>
+          <p class="step__desc">Aquí está la radiografía de tu servicio estrella y el potencial que tiene.</p>
         </div>
         <div class="step__body">
+
+          <!-- Problema #1 -->
+          <div id="top-problem"></div>
 
           <!-- KPIs -->
           <div class="kpis" id="kpis"></div>
@@ -377,12 +424,9 @@
           <div class="health" id="health"></div>
           <div class="insights" id="health-insight"></div>
 
-          <!-- Problema #1 -->
-          <div id="top-problem"></div>
-
-          <!-- Ranking de servicios -->
-          <h3 class="section-title">Ranking de servicios</h3>
-          <div class="ranking-table" id="ranking-table"></div>
+          <!-- Servicio estrella desglose -->
+          <h3 class="section-title">Tu servicio estrella</h3>
+          <div id="star-service-detail"></div>
 
           <!-- Capacidad -->
           <h3 class="section-title">Capacidad operativa</h3>
@@ -402,7 +446,7 @@
         </div>
         <div class="step__nav">
           <button class="btn btn--ghost" onclick="prevStep()">← Editar datos</button>
-          <button class="btn btn--outline" onclick="exportPDF()">📄 Exportar PDF</button>
+          <button class="btn btn--outline" onclick="exportPDF()">Exportar PDF</button>
         </div>
       </div>
 
@@ -414,7 +458,6 @@
     <p class="foot__copy">© 2026 Grow Your Clinic — Johan Martinez</p>
   </footer>
 
-  <!-- <script src="https://link.msgsndr.com/js/form_embed.js"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="js/app.js"></script>

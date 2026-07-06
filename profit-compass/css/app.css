@@ -466,6 +466,28 @@ input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; marg
   font-size: 0.88rem; color: var(--grey); line-height: 1.7;
 }
 
+/* ---- GUIDE BOX ---- */
+.guide-box {
+  padding: 20px; margin-bottom: 24px;
+  background: rgba(201,168,76,0.04); border: 1px solid rgba(201,168,76,0.15);
+  border-radius: var(--radius);
+}
+.guide-box__title {
+  font-family: var(--d); font-weight: 600; font-size: 1rem;
+  color: var(--gold); margin-bottom: 8px;
+}
+.guide-box__text { font-size: 0.85rem; color: var(--grey); margin-bottom: 10px; }
+.guide-box__list { list-style: none; padding: 0; }
+.guide-box__list li {
+  font-size: 0.84rem; color: var(--grey); padding: 4px 0 4px 20px;
+  position: relative;
+}
+.guide-box__list li::before {
+  content: ''; position: absolute; left: 0; top: 11px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(201,168,76,0.4);
+}
+
 /* ---- RESPONSIVE ---- */
 @media (max-width: 768px) {
   .field-row { grid-template-columns: 1fr; }
