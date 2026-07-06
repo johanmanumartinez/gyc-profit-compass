@@ -15,9 +15,8 @@ function enterApp() {
   updateProgress();
 }
 
-// For now, auto-enter (remove when GHL form is embedded)
-// Uncomment the line below to skip the gate during development:
-// document.addEventListener('DOMContentLoaded', enterApp);
+// TESTING: auto-enter sin gate (volver a comentar cuando se active el formulario GHL)
+document.addEventListener('DOMContentLoaded', enterApp);
 
 // ---- NAVIGATION ----
 function nextStep() {
