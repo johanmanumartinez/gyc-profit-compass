@@ -173,11 +173,11 @@ input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; marg
 .custom-select.open .custom-select__trigger::after { transform: rotate(180deg); }
 .custom-select__trigger.placeholder { color: var(--taupe); }
 .custom-select__options {
-  position: absolute; bottom: calc(100% + 4px); left: 0; right: 0;
+  position: absolute; top: calc(100% + 4px); left: 0; right: 0;
   background: var(--carbon); border: 1px solid var(--esp);
   border-radius: 8px; max-height: 260px; overflow-y: auto;
   z-index: 20; display: none;
-  box-shadow: 0 -8px 24px rgba(0,0,0,0.4);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
 }
 .custom-select.open .custom-select__options { display: block; }
 .custom-select__option {

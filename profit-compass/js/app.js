@@ -197,7 +197,7 @@ function updateRemoveButtons() {
     }
   });
 }
-const ROLE_OPTIONS = ['Recepcionista', 'Asistente dental/médico', 'Doctor / Especialista', 'Enfermera', 'Higienista', 'Community Manager', 'Closer / Ventas', 'Administrador / Gerente', 'Limpieza', 'Contador', 'Otro'];
+const ROLE_OPTIONS = ['Recepcionista', 'Asistente de procedimientos', 'Doctor / Especialista', 'Enfermera', 'Higienista', 'Community Manager', 'Closer / Ventas', 'Administrador / Gerente', 'Limpieza', 'Contador', 'Otro'];
 
 function selectRole(rid, value) {
   const trigger = document.querySelector(`#role-dropdown-${rid} .custom-select__trigger`);
