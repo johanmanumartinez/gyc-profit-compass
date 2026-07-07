@@ -1,11 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <rect width="512" height="512" rx="96" fill="#0C0B08"/>
   <rect x="8" y="8" width="496" height="496" rx="88" fill="none" stroke="#C9A84C" stroke-width="2" opacity="0.25"/>
-  <text x="140" y="270" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="160" fill="#C9A84C">G</text>
-  <text x="233" y="270" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="160" fill="#C9A84C">Y</text>
-  <text x="330" y="270" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="160" fill="#C9A84C">C</text>
-  <!-- Rayo centrado abajo -->
-  <g transform="translate(232, 320)" opacity="0.85">
-    <polygon points="24,0 8,28 20,28 10,56 46,22 32,22 42,0" fill="#C9A84C"/>
+  <text x="75" y="285" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="200" fill="#C9A84C">G</text>
+  <text x="190" y="285" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="200" fill="#C9A84C">Y</text>
+  <text x="310" y="285" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="200" fill="#C9A84C">C</text>
+  <g transform="translate(225, 330)" opacity="0.85">
+    <polygon points="28,0 10,32 24,32 12,64 52,26 36,26 48,0" fill="#C9A84C"/>
   </g>
 </svg>

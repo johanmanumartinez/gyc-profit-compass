@@ -1,14 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <rect width="512" height="512" rx="96" fill="#0C0B08"/>
   <rect x="8" y="8" width="496" height="496" rx="88" fill="none" stroke="#C9A84C" stroke-width="2" opacity="0.25"/>
-  <text x="140" y="270" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="160" fill="#C9A84C">G</text>
-  <text x="233" y="270" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="160" fill="#C9A84C">Y</text>
-  <text x="330" y="270" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="160" fill="#C9A84C">C</text>
-  <!-- Mini gráfica ascendente centrada abajo -->
-  <g transform="translate(216, 330)" opacity="0.85">
-    <rect x="0" y="30" width="16" height="30" rx="3" fill="#C9A84C" opacity="0.4"/>
-    <rect x="22" y="18" width="16" height="42" rx="3" fill="#C9A84C" opacity="0.6"/>
-    <rect x="44" y="4" width="16" height="56" rx="3" fill="#C9A84C" opacity="0.9"/>
-    <line x1="0" y1="60" x2="60" y2="60" stroke="#C9A84C" stroke-width="2" opacity="0.3"/>
+  <text x="75" y="285" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="200" fill="#C9A84C">G</text>
+  <text x="190" y="285" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="200" fill="#C9A84C">Y</text>
+  <text x="310" y="285" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="200" fill="#C9A84C">C</text>
+  <g transform="translate(206, 340)" opacity="0.85">
+    <rect x="0" y="30" width="18" height="34" rx="3" fill="#C9A84C" opacity="0.4"/>
+    <rect x="24" y="16" width="18" height="48" rx="3" fill="#C9A84C" opacity="0.6"/>
+    <rect x="48" y="0" width="18" height="64" rx="3" fill="#C9A84C" opacity="0.9"/>
+    <line x1="0" y1="64" x2="66" y2="64" stroke="#C9A84C" stroke-width="2" opacity="0.3"/>
   </g>
 </svg>
