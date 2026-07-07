@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#0C0B08"/>
+  <rect x="8" y="8" width="496" height="496" rx="88" fill="none" stroke="#C9A84C" stroke-width="2" opacity="0.25"/>
+
+  <g transform="translate(256,256)">
+    <!-- G serif centrada en el origen -->
+    <text x="-195" y="75" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="280" fill="#C9A84C">G</text>
+
+    <!-- Electrocardiograma saliendo de la G hacia la derecha -->
+    <polyline points="45,10 70,10 85,-35 100,55 115,-5 130,10 185,10"
+      fill="none" stroke="#C9A84C" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+  </g>
+</svg>
