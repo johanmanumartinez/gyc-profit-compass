@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <rect width="512" height="512" rx="96" fill="#0C0B08"/>
   <rect x="8" y="8" width="496" height="496" rx="88" fill="none" stroke="#C9A84C" stroke-width="2" opacity="0.25"/>
-  <text x="75" y="330" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="200" fill="#C9A84C">G</text>
-  <text x="190" y="330" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="200" fill="#C9A84C">Y</text>
-  <text x="310" y="330" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="200" fill="#C9A84C">C</text>
+  <text x="56" y="350" font-family="Arial Black, 'Arial Bold', sans-serif" font-weight="900" font-size="220" fill="#C9A84C" stroke="#C9A84C" stroke-width="6">G</text>
+  <text x="186" y="350" font-family="Arial Black, 'Arial Bold', sans-serif" font-weight="900" font-size="220" fill="#C9A84C" stroke="#C9A84C" stroke-width="6">Y</text>
+  <text x="322" y="350" font-family="Arial Black, 'Arial Bold', sans-serif" font-weight="900" font-size="220" fill="#C9A84C" stroke="#C9A84C" stroke-width="6">C</text>
 </svg>
