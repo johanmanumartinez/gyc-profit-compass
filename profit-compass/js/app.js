@@ -8,16 +8,26 @@ const totalSteps = 8;
 let roles = [];
 
 // ---- BENCHMARKS ----
+// Datos conservadores-altos para LATAM (ligeramente por encima del promedio)
 const BENCHMARKS = {
-  'Odontología':            { cpl: 7,  showRate: 70, closeRate: 62 },
-  'Estética no quirúrgica': { cpl: 11, showRate: 62, closeRate: 57 },
-  'Estética quirúrgica':    { cpl: 16, showRate: 57, closeRate: 47 },
-  'Dermatología':           { cpl: 9,  showRate: 67, closeRate: 62 },
-  'Oftalmología':           { cpl: 20, showRate: 60, closeRate: 52 },
-  'Fisioterapia':           { cpl: 8,  showRate: 65, closeRate: 60 },
-  'Cirugía general':        { cpl: 18, showRate: 55, closeRate: 45 },
-  'Otro':                   { cpl: 10, showRate: 65, closeRate: 55 }
+  'Odontología':            { cpl: 12, showRate: 58, closeRate: 48 },
+  'Estética no quirúrgica': { cpl: 18, showRate: 53, closeRate: 42 },
+  'Estética quirúrgica':    { cpl: 25, showRate: 48, closeRate: 38 },
+  'Dermatología':           { cpl: 14, showRate: 55, closeRate: 45 },
+  'Oftalmología':           { cpl: 28, showRate: 50, closeRate: 40 },
+  'Fisioterapia':           { cpl: 12, showRate: 55, closeRate: 48 },
+  'Cirugía general':        { cpl: 24, showRate: 46, closeRate: 36 },
+  'Otro':                   { cpl: 16, showRate: 52, closeRate: 42 }
 };
+
+// CAC como % del ticket según rango de precio (conservador-alto)
+function getCACBenchmarkPct(price) {
+  if (price <= 0) return 0.25;
+  if (price < 200) return 0.35;    // bajo ticket: 35%
+  if (price < 1000) return 0.26;   // medio ticket: 26%
+  if (price < 5000) return 0.18;   // alto ticket: 18%
+  return 0.12;                      // premium: 12%
+}
 
 const SPECIALTY_PLACEHOLDERS = {
   'Odontología':            'Ej: Blanqueamiento dental',
@@ -337,12 +347,13 @@ function fillBenchmark(fieldId) {
   const b = getBenchmark();
   const el = document.getElementById(fieldId);
   if (!el) return;
+  const bookingRate = 0.40;
   const map = {
     'sim-cpl': b.cpl,
-    'leads-month': 100,
-    'leads-booked': Math.round(100 * 0.6),
-    'leads-showed': Math.round(100 * 0.6 * (b.showRate / 100)),
-    'leads-closed': Math.round(100 * 0.6 * (b.showRate / 100) * (b.closeRate / 100))
+    'leads-month': 80,
+    'leads-booked': Math.round(80 * bookingRate),
+    'leads-showed': Math.round(80 * bookingRate * (b.showRate / 100)),
+    'leads-closed': Math.round(80 * bookingRate * (b.showRate / 100) * (b.closeRate / 100))
   };
   if (map[fieldId] !== undefined) {
     el.value = map[fieldId];
@@ -483,16 +494,18 @@ function renderDashboard() {
   const payrollText = payrollPct < 35 ? 'Tu nómina está en rango saludable.'
     : payrollPct < 45 ? `Tu nómina es el ${payrollPct.toFixed(0)}% de tu facturación. Ideal: menos del 35%.`
     : `Tu nómina se come el ${payrollPct.toFixed(0)}% de lo que facturas. Revisa roles o factura más.`;
+  const cacBenchPct = getCACBenchmarkPct(svc.ticket) * 100;
   const cacText = cacPct > 0
-    ? (cacPct < 15 ? `CAC eficiente: ${cacPct.toFixed(0)}% del ticket.`
-      : `CAC de ${fmt(cac)} por paciente (${cacPct.toFixed(0)}% del ticket). Ideal: menos del 15%.`)
-    : 'Sin datos de adquisición para calcular CAC.';
+    ? (cacPct <= cacBenchPct * 0.6 ? `Tu costo de adquisición es ${fmt(cac)} por paciente (${cacPct.toFixed(0)}% de tu ticket). Es un número eficiente para tu rango de servicio.`
+      : cacPct <= cacBenchPct ? `Tu costo de adquisición es ${fmt(cac)} por paciente (${cacPct.toFixed(0)}% de tu ticket). Está dentro del rango esperado, pero con un funnel optimizado para ${svc.name} este número tiene espacio para mejorar.`
+      : `Tu costo de adquisición es ${fmt(cac)} por paciente (${cacPct.toFixed(0)}% de tu ticket). Está por encima de lo esperado para este tipo de servicio. Con un funnel optimizado, este número tiene espacio para mejorar.`)
+    : 'Sin datos de adquisición para calcular tu costo de adquisición.';
 
   document.getElementById('health').innerHTML = `
     ${healthItem('Margen neto', netMargin, '%', netMargin > 25 ? 'green' : netMargin > 15 ? 'yellow' : 'red')}
     ${healthItem('Ocupación', occupancy, '%', occupancy > 75 ? 'green' : occupancy > 50 ? 'yellow' : 'red')}
     ${healthItem('Nómina/Facturación', payrollPct, '%', payrollPct < 35 ? 'green' : payrollPct < 45 ? 'yellow' : 'red')}
-    ${healthItem('CAC/Ticket', cacPct, '%', cacPct < 15 ? 'green' : cacPct < 25 ? 'yellow' : 'red')}
+    ${healthItem('CAC/Ticket', cacPct, '%', cacPct <= cacBenchPct * 0.6 ? 'green' : cacPct <= cacBenchPct ? 'yellow' : 'red')}
     ${healthItem('Punto equilibrio', breakeven, '', null, fmt(breakeven))}
   `;
   document.getElementById('health-insight').innerHTML = `
@@ -560,7 +573,7 @@ function renderDashboard() {
   if (netMargin < 25) problems.push({ severity: 3 - netMargin / 10, key: 'margin', title: 'Margen bajo', text: `Tu margen neto es ${netMargin.toFixed(1)}%. Un ajuste de pricing en ${svc.name} mejoraría tu rentabilidad sin agendar más.`, cta: `Mi margen neto es ${netMargin.toFixed(1)}% y quiero mejorarlo` });
   if (occupancy < 75) problems.push({ severity: 3 - occupancy / 30, key: 'occupancy', title: 'Capacidad desperdiciada', text: `${svc.name} opera al ${occupancy.toFixed(0)}%. Tienes ${freeSlots} citas libres — ${fmt(moneyOnTable)} que dejas en la mesa. Un funnel dedicado llenaría esos espacios.`, cta: `Tengo ${freeSlots} citas libres en ${svc.name} y quiero llenarlas` });
   if (payrollPct > 40) problems.push({ severity: payrollPct / 15 - 2, key: 'payroll', title: 'Nómina alta', text: `Tu nómina es el ${payrollPct.toFixed(0)}% de tu facturación (ideal: <35%). Factura más o revisa roles.`, cta: `Mi nómina se come el ${payrollPct.toFixed(0)}% de mi facturación` });
-  if (cacPct > 20) problems.push({ severity: cacPct / 10, key: 'cac', title: 'Adquisición cara', text: `CAC de ${fmt(cac)} por paciente (${cacPct.toFixed(0)}% del ticket). Optimizar tu funnel lo reduciría.`, cta: `Mi CAC es ${fmt(cac)} por paciente y quiero reducirlo` });
+  if (cacPct > cacBenchPct) problems.push({ severity: cacPct / cacBenchPct, key: 'cac', title: 'Costo de adquisición alto', text: `Te cuesta ${fmt(cac)} adquirir cada paciente de ${svc.name} (${cacPct.toFixed(0)}% de tu ticket). Con un funnel optimizado para este servicio, este número tiene espacio para mejorar.`, cta: `Mi costo de adquisición es ${fmt(cac)} por paciente y quiero optimizarlo` });
   if (ai.score < 10) problems.push({ severity: 2.5 - ai.score / 6, key: 'automation', title: 'Sin automatización', text: `Tu nivel de automatización es ${ai.score} de ${ai.maxScore}. Tu clínica opera de forma manual en la mayoría de procesos — pierdes leads, no haces seguimiento, no reactivas. La automatización es la palanca más rápida para crecer.`, cta: `Mi nivel de automatización es ${ai.score}/${ai.maxScore} y quiero mejorarlo` });
 
   problems.sort((a, b) => b.severity - a.severity);
