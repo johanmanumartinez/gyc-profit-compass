@@ -42,8 +42,14 @@
           <div class="ctrl__money"><span class="ctrl__currency">$</span><input type="number" class="ctrl__input" id="svc-cost" value="400" oninput="calc()"></div>
         </div>
         <div class="ctrl">
-          <label class="ctrl__label">Duración (min)</label>
-          <input type="number" class="ctrl__input" id="svc-duration" value="60" oninput="calc()">
+          <label class="ctrl__label">Duración</label>
+          <div class="ctrl__with-unit">
+            <input type="number" class="ctrl__input" id="svc-duration" value="60" oninput="calc()">
+            <div class="ctrl__unit-toggle">
+              <button type="button" class="ctrl__unit-btn active" data-unit="min" onclick="setUnit(this)">min</button>
+              <button type="button" class="ctrl__unit-btn" data-unit="hrs" onclick="setUnit(this)">hrs</button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -74,22 +80,27 @@
         <div class="ctrl">
           <label class="ctrl__label">Ad spend mensual</label>
           <div class="ctrl__money"><span class="ctrl__currency">$</span><input type="number" class="ctrl__input" id="ad-spend" value="600" oninput="calc()"></div>
+          <p class="ctrl__desc">Inversión mensual en anuncios pagados</p>
         </div>
         <div class="ctrl">
           <label class="ctrl__label">CPL</label>
           <div class="ctrl__money"><span class="ctrl__currency">$</span><input type="number" class="ctrl__input" id="cpl" value="12" oninput="calc()"></div>
+          <p class="ctrl__desc">Costo por Lead — cuánto cuesta que alguien te contacte</p>
         </div>
         <div class="ctrl">
           <label class="ctrl__label">Tasa de agendamiento %</label>
           <input type="number" class="ctrl__input" id="booking-rate" value="40" min="0" max="100" oninput="calc()">
+          <p class="ctrl__desc">De los leads, cuántos agendan cita</p>
         </div>
         <div class="ctrl">
           <label class="ctrl__label">Show rate %</label>
           <input type="number" class="ctrl__input" id="show-rate" value="58" min="0" max="100" oninput="calc()">
+          <p class="ctrl__desc">De los que agendan, cuántos asisten</p>
         </div>
         <div class="ctrl">
           <label class="ctrl__label">Tasa de cierre %</label>
           <input type="number" class="ctrl__input" id="close-rate" value="48" min="0" max="100" oninput="calc()">
+          <p class="ctrl__desc">De los que asisten, cuántos compran</p>
         </div>
       </div>
 

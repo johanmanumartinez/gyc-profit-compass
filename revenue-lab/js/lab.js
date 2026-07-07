@@ -12,11 +12,24 @@ function fmt(n) {
   return '$' + Math.round(n).toLocaleString('en-US');
 }
 
+function setUnit(btn) {
+  const group = btn.closest('.ctrl__unit-toggle');
+  group.querySelectorAll('.ctrl__unit-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  calc();
+}
+
+function getDuration() {
+  const raw = num('svc-duration') || 60;
+  const unit = document.querySelector('.ctrl__unit-btn.active')?.dataset.unit || 'min';
+  return unit === 'hrs' ? raw * 60 : raw;
+}
+
 function calc() {
   // Inputs
   const price = num('svc-price');
   const cost = num('svc-cost');
-  const duration = num('svc-duration') || 60;
+  const duration = getDuration();
   const professionals = num('professionals') || 1;
   const hoursDay = num('hours-day') || 10;
   const daysWeek = num('days-week') || 6;
@@ -99,14 +112,14 @@ function calc() {
 
   // ---- KPIs ----
   document.getElementById('kpis').innerHTML = `
-    <div class="kpi"><span class="kpi__value">${fmt(revenue)}</span><span class="kpi__label">Facturación</span></div>
-    <div class="kpi"><span class="kpi__value ${netProfit >= 0 ? 'green' : 'red'}">${fmt(netProfit)}</span><span class="kpi__label">Ganancia neta</span></div>
-    <div class="kpi"><span class="kpi__value">${netMargin.toFixed(1)}%</span><span class="kpi__label">Margen neto</span></div>
-    <div class="kpi"><span class="kpi__value">${fmt(breakeven)}</span><span class="kpi__label">Punto equilibrio</span></div>
-    <div class="kpi"><span class="kpi__value ${cacPct > 25 ? 'red' : ''}">${fmt(cac)}</span><span class="kpi__label">CAC</span></div>
-    <div class="kpi"><span class="kpi__value ${roas >= 3 ? 'green' : roas < 1.5 ? 'red' : ''}">${roas.toFixed(1)}x</span><span class="kpi__label">ROAS</span></div>
-    <div class="kpi"><span class="kpi__value">${fmt(moneyOnTable)}</span><span class="kpi__label">Dinero en la mesa</span></div>
-    <div class="kpi"><span class="kpi__value ${ltvCac >= 3 ? 'green' : ltvCac < 2 ? 'red' : ''}">${ltvCac.toFixed(1)}:1</span><span class="kpi__label">LTV:CAC</span></div>
+    <div class="kpi"><span class="kpi__value">${fmt(revenue)}</span><span class="kpi__label">Facturación</span><span class="kpi__desc">Ingreso mensual por este servicio</span></div>
+    <div class="kpi"><span class="kpi__value ${netProfit >= 0 ? 'green' : 'red'}">${fmt(netProfit)}</span><span class="kpi__label">Ganancia neta</span><span class="kpi__desc">Lo que queda después de todos los costos</span></div>
+    <div class="kpi"><span class="kpi__value">${netMargin.toFixed(1)}%</span><span class="kpi__label">Margen neto</span><span class="kpi__desc">Porcentaje de ganancia por cada dólar facturado</span></div>
+    <div class="kpi"><span class="kpi__value">${fmt(breakeven)}</span><span class="kpi__label">Punto de equilibrio</span><span class="kpi__desc">Mínimo que debes facturar para no perder dinero</span></div>
+    <div class="kpi"><span class="kpi__value ${cacPct > 25 ? 'red' : ''}">${fmt(cac)}</span><span class="kpi__label">CAC</span><span class="kpi__desc">Costo de adquirir cada paciente nuevo</span></div>
+    <div class="kpi"><span class="kpi__value ${roas >= 3 ? 'green' : roas < 1.5 ? 'red' : ''}">${roas.toFixed(1)}x</span><span class="kpi__label">ROAS</span><span class="kpi__desc">Por cada $1 en ads, cuánto facturas. Arriba de 3x es rentable</span></div>
+    <div class="kpi"><span class="kpi__value">${fmt(moneyOnTable)}</span><span class="kpi__label">Dinero en la mesa</span><span class="kpi__desc">Lo que dejas de ganar por no llenar tu capacidad</span></div>
+    <div class="kpi"><span class="kpi__value ${ltvCac >= 3 ? 'green' : ltvCac < 2 ? 'red' : ''}">${ltvCac.toFixed(1)}:1</span><span class="kpi__label">LTV:CAC</span><span class="kpi__desc">Valor del paciente vs lo que costó conseguirlo. Arriba de 3:1 es sano</span></div>
   `;
 
   // ---- FUNNEL ----
