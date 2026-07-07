@@ -129,8 +129,14 @@
           </div>
           <div class="field-row">
             <div class="field">
-              <label class="field__label">Duración promedio (minutos)</label>
-              <input type="number" class="field__input" id="svc-duration" min="1" value="60">
+              <label class="field__label">Duración promedio</label>
+              <div class="field__with-unit">
+                <input type="number" class="field__input" id="svc-duration" min="1" value="60">
+                <div class="field__unit-toggle">
+                  <button type="button" class="field__unit-btn active" data-unit="min">min</button>
+                  <button type="button" class="field__unit-btn" data-unit="hrs">hrs</button>
+                </div>
+              </div>
             </div>
             <div class="field">
               <label class="field__label">Pacientes/mes de este servicio</label>
@@ -431,7 +437,7 @@
         <div class="step__header">
           <span class="step__tag">Paso 7 de 8</span>
           <h2 class="step__title">Simulador de escalamiento</h2>
-          <p class="step__desc">Simula cuánto necesitas invertir para llenar la agenda de tu servicio estrella.</p>
+          <p class="step__desc">Ajusta los valores y observa cómo cambian los resultados en tiempo real. Esto te muestra qué pasaría si inviertes en anuncios para llenar la agenda de tu servicio estrella.</p>
         </div>
         <div class="step__body">
           <div class="field-row">

@@ -293,7 +293,8 @@ input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; marg
   padding: 10px 0; border-bottom: 1px solid rgba(58,53,47,0.2);
 }
 .sim-row:last-child { border-bottom: none; }
-.sim-row__label { font-size: 0.85rem; color: var(--grey); }
+.sim-row__label { font-size: 0.85rem; color: var(--grey); flex: 1; }
+.sim-row__label .metric-desc { display: block; }
 .sim-row__value { font-family: var(--l); font-weight: 500; font-size: 0.92rem; color: var(--fg); }
 .sim-row__value.gold { color: var(--gold); }
 .sim-row__value.green { color: var(--green); }
@@ -524,6 +525,37 @@ input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; marg
   background: rgba(201,168,76,0.4);
 }
 
+/* ---- IA SECTION TYPOGRAPHY ---- */
+.step[data-step="6"] .field__label {
+  font-size: 1rem; font-weight: 600; color: var(--fg); margin-bottom: 12px;
+}
+.step[data-step="6"] .section-title {
+  font-size: 1.25rem; margin-top: 36px; margin-bottom: 20px;
+  padding-bottom: 8px; border-bottom: 1px solid rgba(201,168,76,0.2);
+}
+
+/* ---- METRIC DESCRIPTION ---- */
+.metric-desc {
+  font-size: 0.75rem; color: var(--taupe); line-height: 1.4;
+  margin-top: 2px;
+}
+
+/* ---- DURATION UNIT ---- */
+.field__with-unit { display: flex; align-items: stretch; }
+.field__with-unit .field__input { border-radius: 8px 0 0 8px; }
+.field__unit-toggle {
+  display: flex; border: 1px solid rgba(58,53,47,0.4); border-left: none;
+  border-radius: 0 8px 8px 0; overflow: hidden;
+}
+.field__unit-btn {
+  padding: 8px 12px; background: rgba(58,53,47,0.15);
+  color: var(--taupe); font-family: var(--l); font-size: 0.78rem;
+  border: none; cursor: pointer; transition: background 0.3s, color 0.3s;
+}
+.field__unit-btn.active {
+  background: rgba(201,168,76,0.15); color: var(--gold);
+}
+
 /* ---- RESPONSIVE ---- */
 @media (max-width: 768px) {
   .field-row { grid-template-columns: 1fr; }
@@ -532,6 +564,7 @@ input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; marg
   .topbar__inner { padding: 12px 20px; }
   .app { padding: 0 16px; }
   .step__title { font-size: 1.3rem; }
+  html { scroll-padding-top: 80px; }
 }
 @media (max-width: 480px) {
   .kpis { grid-template-columns: 1fr; }

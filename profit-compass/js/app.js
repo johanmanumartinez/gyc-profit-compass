@@ -127,6 +127,24 @@ document.addEventListener('DOMContentLoaded', () => {
     if (el) el.addEventListener('input', updateSimulation);
   });
 
+  // Mobile: scroll input into view when keyboard opens
+  document.querySelectorAll('input, select').forEach(el => {
+    el.addEventListener('focus', () => {
+      setTimeout(() => {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 300);
+    });
+  });
+
+  // Duration unit toggle
+  document.querySelectorAll('.field__unit-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const group = btn.closest('.field__unit-toggle');
+      group.querySelectorAll('.field__unit-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
   // Progress bar CSS
   const style = document.createElement('style');
   style.textContent = `.progress__bar::after { width: var(--pct, 12.5%) !important; }`;
@@ -144,7 +162,9 @@ function toggleTicket() {
 function getServiceData() {
   const price = num(document.getElementById('svc-price'));
   const cost = num(document.getElementById('svc-cost'));
-  const duration = num(document.getElementById('svc-duration')) || 60;
+  const durationRaw = num(document.getElementById('svc-duration')) || 60;
+  const durationUnit = document.querySelector('.field__unit-btn.active')?.dataset.unit || 'min';
+  const duration = durationUnit === 'hrs' ? durationRaw * 60 : durationRaw;
   const patients = num(document.getElementById('svc-patients'));
   const professionals = num(document.getElementById('svc-professionals')) || 1;
   const ticketToggle = document.getElementById('svc-ticket-toggle');
@@ -370,15 +390,15 @@ function updateSimulation() {
   const container = document.getElementById('sim-results');
   if (!container) return;
   container.innerHTML = `
-    <div class="sim-row"><span class="sim-row__label">Gasto mensual en ads</span><span class="sim-row__value">${fmt(monthlySpend)}</span></div>
-    <div class="sim-row"><span class="sim-row__label">Leads proyectados/mes</span><span class="sim-row__value gold">${projectedLeads}</span></div>
-    <div class="sim-row"><span class="sim-row__label">Tasa de conversión</span><span class="sim-row__value">${(convRate * 100).toFixed(1)}%</span></div>
-    <div class="sim-row"><span class="sim-row__label">Pacientes nuevos/mes</span><span class="sim-row__value gold">${projectedPatients}</span></div>
-    <div class="sim-row"><span class="sim-row__label">CAC proyectado</span><span class="sim-row__value ${cac > svc.ticket * 0.25 ? 'red' : 'green'}">${fmt(cac)}</span></div>
-    <div class="sim-row"><span class="sim-row__label">ROAS</span><span class="sim-row__value ${roas >= 3 ? 'green' : roas >= 1.5 ? '' : 'red'}">${roas.toFixed(1)}x</span></div>
-    <div class="sim-row"><span class="sim-row__label">Margen neto por paciente</span><span class="sim-row__value ${marginPerPatient > 0 ? 'green' : 'red'}">${fmt(marginPerPatient)}</span></div>
-    <div class="sim-row"><span class="sim-row__label">Capacidad libre</span><span class="sim-row__value">${freeSlots} citas/mes</span></div>
-    <div class="sim-row"><span class="sim-row__label">Ad spend para llenar capacidad</span><span class="sim-row__value gold">${fmt(spendToFill)}/mes</span></div>
+    <div class="sim-row"><span class="sim-row__label">Gasto mensual en ads<span class="metric-desc">Lo que invertirías en anuncios al mes (presupuesto diario x 30)</span></span><span class="sim-row__value">${fmt(monthlySpend)}</span></div>
+    <div class="sim-row"><span class="sim-row__label">Leads proyectados/mes<span class="metric-desc">Personas que contactarían tu clínica gracias a los anuncios</span></span><span class="sim-row__value gold">${projectedLeads}</span></div>
+    <div class="sim-row"><span class="sim-row__label">Tasa de conversión<span class="metric-desc">De cada 100 leads, cuántos terminan comprando (basado en tus datos o promedios)</span></span><span class="sim-row__value">${(convRate * 100).toFixed(1)}%</span></div>
+    <div class="sim-row"><span class="sim-row__label">Pacientes nuevos/mes<span class="metric-desc">Cuántos pacientes nuevos conseguirías con esta inversión</span></span><span class="sim-row__value gold">${projectedPatients}</span></div>
+    <div class="sim-row"><span class="sim-row__label">CAC proyectado<span class="metric-desc">Costo de Adquisición por Cliente — cuánto te cuesta conseguir cada paciente nuevo</span></span><span class="sim-row__value ${cac > svc.ticket * 0.25 ? 'red' : 'green'}">${fmt(cac)}</span></div>
+    <div class="sim-row"><span class="sim-row__label">ROAS<span class="metric-desc">Retorno sobre inversión en ads — por cada $1 que inviertes, cuánto facturas. Arriba de 3x es rentable</span></span><span class="sim-row__value ${roas >= 3 ? 'green' : roas >= 1.5 ? '' : 'red'}">${roas.toFixed(1)}x</span></div>
+    <div class="sim-row"><span class="sim-row__label">Margen neto por paciente<span class="metric-desc">Lo que realmente te queda de ganancia por cada paciente nuevo, descontando costos y lo que pagaste para conseguirlo</span></span><span class="sim-row__value ${marginPerPatient > 0 ? 'green' : 'red'}">${fmt(marginPerPatient)}</span></div>
+    <div class="sim-row"><span class="sim-row__label">Capacidad libre<span class="metric-desc">Cuántas citas más puedes atender al mes sin contratar ni ampliar</span></span><span class="sim-row__value">${freeSlots} citas/mes</span></div>
+    <div class="sim-row"><span class="sim-row__label">Ad spend para llenar capacidad<span class="metric-desc">Cuánto necesitarías invertir en ads para llenar todas las citas disponibles</span></span><span class="sim-row__value gold">${fmt(spendToFill)}/mes</span></div>
   `;
 }
 
@@ -481,15 +501,15 @@ function renderDashboard() {
   document.getElementById('star-service-detail').innerHTML = `
     <div class="sim-results">
       <div class="sim-row"><span class="sim-row__label">Servicio</span><span class="sim-row__value gold">${svc.name}</span></div>
-      <div class="sim-row"><span class="sim-row__label">Precio de lista</span><span class="sim-row__value">${fmt(svc.price)}</span></div>
-      ${svc.ticket !== svc.price ? `<div class="sim-row"><span class="sim-row__label">Ticket real</span><span class="sim-row__value">${fmt(svc.ticket)}</span></div>` : ''}
-      <div class="sim-row"><span class="sim-row__label">Costo directo</span><span class="sim-row__value">${fmt(svc.cost)}</span></div>
-      <div class="sim-row"><span class="sim-row__label">Margen bruto</span><span class="sim-row__value ${svc.marginPct > 50 ? 'green' : svc.marginPct > 30 ? '' : 'red'}">${fmt(svc.ticket - svc.cost)} (${svc.marginPct.toFixed(1)}%)</span></div>
-      <div class="sim-row"><span class="sim-row__label">Margen por hora-silla</span><span class="sim-row__value">${fmt(svc.hourlyMargin)}/hr</span></div>
-      <div class="sim-row"><span class="sim-row__label">Pacientes actuales</span><span class="sim-row__value">${svc.patients}/mes</span></div>
-      <div class="sim-row"><span class="sim-row__label">Profesionales</span><span class="sim-row__value">${svc.professionals}</span></div>
-      <div class="sim-row"><span class="sim-row__label">Capacidad máxima</span><span class="sim-row__value">${maxSlots} citas/mes</span></div>
-      <div class="sim-row"><span class="sim-row__label">Citas libres</span><span class="sim-row__value gold">${freeSlots}</span></div>
+      <div class="sim-row"><span class="sim-row__label">Precio de lista<span class="metric-desc">Lo que cobras oficialmente por este procedimiento</span></span><span class="sim-row__value">${fmt(svc.price)}</span></div>
+      ${svc.ticket !== svc.price ? `<div class="sim-row"><span class="sim-row__label">Ticket real<span class="metric-desc">Lo que realmente cobras en promedio después de descuentos o upsells</span></span><span class="sim-row__value">${fmt(svc.ticket)}</span></div>` : ''}
+      <div class="sim-row"><span class="sim-row__label">Costo directo<span class="metric-desc">Lo que gastas en materiales e insumos cada vez que haces este procedimiento</span></span><span class="sim-row__value">${fmt(svc.cost)}</span></div>
+      <div class="sim-row"><span class="sim-row__label">Margen bruto<span class="metric-desc">Lo que te queda después de descontar materiales — cuanto más alto, más rentable es el servicio</span></span><span class="sim-row__value ${svc.marginPct > 50 ? 'green' : svc.marginPct > 30 ? '' : 'red'}">${fmt(svc.ticket - svc.cost)} (${svc.marginPct.toFixed(1)}%)</span></div>
+      <div class="sim-row"><span class="sim-row__label">Margen por hora-silla<span class="metric-desc">Cuánto ganas por cada hora que un profesional dedica a este servicio</span></span><span class="sim-row__value">${fmt(svc.hourlyMargin)}/hr</span></div>
+      <div class="sim-row"><span class="sim-row__label">Pacientes actuales<span class="metric-desc">Cuántos pacientes atiendes actualmente por mes con este servicio</span></span><span class="sim-row__value">${svc.patients}/mes</span></div>
+      <div class="sim-row"><span class="sim-row__label">Profesionales<span class="metric-desc">Personas en tu clínica que pueden realizar este procedimiento</span></span><span class="sim-row__value">${svc.professionals}</span></div>
+      <div class="sim-row"><span class="sim-row__label">Capacidad máxima<span class="metric-desc">El máximo de citas que podrías atender por mes con tu equipo actual</span></span><span class="sim-row__value">${maxSlots} citas/mes</span></div>
+      <div class="sim-row"><span class="sim-row__label">Citas libres<span class="metric-desc">Espacios disponibles que podrías estar llenando con pacientes nuevos</span></span><span class="sim-row__value gold">${freeSlots}</span></div>
     </div>
   `;
 
