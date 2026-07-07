@@ -131,8 +131,12 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('input, select').forEach(el => {
     el.addEventListener('focus', () => {
       setTimeout(() => {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 300);
+        const rect = el.getBoundingClientRect();
+        const visibleHeight = window.innerHeight * 0.45;
+        if (rect.top > visibleHeight || rect.top < 80) {
+          window.scrollBy({ top: rect.top - 120, behavior: 'smooth' });
+        }
+      }, 400);
     });
   });
 
