@@ -150,20 +150,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Duration unit toggle
-  document.querySelectorAll('.field__unit-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const group = btn.closest('.field__unit-toggle');
-      group.querySelectorAll('.field__unit-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    });
-  });
-
   // Progress bar CSS
   const style = document.createElement('style');
   style.textContent = `.progress__bar::after { width: var(--pct, 12.5%) !important; }`;
   document.head.appendChild(style);
 });
+
+// ---- DURATION UNIT ----
+let durationUnit = 'min';
+function toggleDurationUnit() {
+  durationUnit = durationUnit === 'min' ? 'hrs' : 'min';
+  const label = document.getElementById('duration-unit-label');
+  if (label) label.textContent = durationUnit;
+}
 
 // ---- TICKET TOGGLE ----
 function toggleTicket() {
@@ -177,7 +176,6 @@ function getServiceData() {
   const price = num(document.getElementById('svc-price'));
   const cost = num(document.getElementById('svc-cost'));
   const durationRaw = num(document.getElementById('svc-duration')) || 60;
-  const durationUnit = document.querySelector('.field__unit-btn.active')?.dataset.unit || 'min';
   const duration = durationUnit === 'hrs' ? durationRaw * 60 : durationRaw;
   const patients = num(document.getElementById('svc-patients'));
   const professionals = num(document.getElementById('svc-professionals')) || 1;

@@ -132,9 +132,8 @@
               <label class="field__label">Duración promedio</label>
               <div class="field__with-unit">
                 <input type="number" class="field__input" id="svc-duration" min="1" value="60">
-                <div class="field__unit-toggle">
-                  <button type="button" class="field__unit-btn active" data-unit="min">min</button>
-                  <button type="button" class="field__unit-btn" data-unit="hrs">hrs</button>
+                <div class="field__unit-switch" id="duration-unit" onclick="toggleDurationUnit()">
+                  <span id="duration-unit-label">min</span>
                 </div>
               </div>
             </div>

@@ -289,9 +289,10 @@ input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; marg
   border-radius: var(--radius);
 }
 .sim-row {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 10px 0; border-bottom: 1px solid rgba(58,53,47,0.2);
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 16px; padding: 12px 0; border-bottom: 1px solid rgba(58,53,47,0.2);
 }
+.sim-row__value { flex-shrink: 0; text-align: right; }
 .sim-row:last-child { border-bottom: none; }
 .sim-row__label { font-size: 0.85rem; color: var(--grey); flex: 1; }
 .sim-row__label .metric-desc { display: block; }
@@ -543,17 +544,18 @@ input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; marg
 /* ---- DURATION UNIT ---- */
 .field__with-unit { display: flex; align-items: stretch; }
 .field__with-unit .field__input { border-radius: 8px 0 0 8px; }
-.field__unit-toggle {
-  display: flex; border: 1px solid rgba(58,53,47,0.4); border-left: none;
-  border-radius: 0 8px 8px 0; overflow: hidden;
+.field__unit-switch {
+  display: flex; align-items: center; gap: 4px; padding: 0 12px;
+  background: rgba(58,53,47,0.15); border: 1px solid rgba(58,53,47,0.4);
+  border-left: none; border-radius: 0 8px 8px 0;
+  color: var(--gold); font-family: var(--l); font-size: 0.78rem;
+  cursor: pointer; transition: background 0.3s; user-select: none;
 }
-.field__unit-btn {
-  padding: 8px 12px; background: rgba(58,53,47,0.15);
-  color: var(--taupe); font-family: var(--l); font-size: 0.78rem;
-  border: none; cursor: pointer; transition: background 0.3s, color 0.3s;
-}
-.field__unit-btn.active {
-  background: rgba(201,168,76,0.15); color: var(--gold);
+.field__unit-switch:hover { background: rgba(201,168,76,0.1); }
+.field__unit-switch::after {
+  content: ''; width: 0; height: 0;
+  border-left: 4px solid transparent; border-right: 4px solid transparent;
+  border-top: 4px solid var(--gold); opacity: 0.6;
 }
 
 /* ---- RESPONSIVE ---- */
