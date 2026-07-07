@@ -308,58 +308,117 @@
         <div class="step__header">
           <span class="step__tag">Paso 6 de 8</span>
           <h2 class="step__title">IA y automatización</h2>
-          <p class="step__desc">Queremos saber cómo gestiona tu clínica estos procesos hoy.</p>
+          <p class="step__desc">Queremos entender cómo opera tu clínica en cada etapa del recorrido del paciente.</p>
         </div>
         <div class="step__body">
+
+          <h3 class="section-title" style="margin-top:0;">Antes de la compra</h3>
+
           <div class="field">
             <label class="field__label">¿Cómo agendan citas tus pacientes?</label>
             <div class="field__radios">
-              <label class="radio"><input type="radio" name="ai-booking" value="manual" checked><span>Manual (teléfono / WhatsApp)</span></label>
-              <label class="radio"><input type="radio" name="ai-booking" value="link"><span>Link de agenda online</span></label>
-              <label class="radio"><input type="radio" name="ai-booking" value="auto"><span>Sistema automático integrado</span></label>
+              <label class="radio"><input type="radio" name="ai-booking" value="manual" checked><span>Por teléfono o WhatsApp — depende de que alguien del equipo esté disponible para responder y coordinar</span></label>
+              <label class="radio"><input type="radio" name="ai-booking" value="link"><span>Tenemos un link de agenda online, aunque no todos los pacientes lo usan y a veces toca coordinar igual por mensaje</span></label>
+              <label class="radio"><input type="radio" name="ai-booking" value="auto"><span>Tenemos un sistema automático que agenda sin intervención humana, 24/7</span></label>
             </div>
           </div>
+
           <div class="field">
             <label class="field__label">¿Quién responde cuando llega un lead nuevo?</label>
             <div class="field__radios">
-              <label class="radio"><input type="radio" name="ai-response" value="doctor" checked><span>El doctor directamente</span></label>
-              <label class="radio"><input type="radio" name="ai-response" value="receptionist"><span>Recepcionista</span></label>
-              <label class="radio"><input type="radio" name="ai-response" value="chatbot"><span>Chatbot / IA</span></label>
-              <label class="radio"><input type="radio" name="ai-response" value="nobody"><span>Nadie fuera de horario</span></label>
+              <label class="radio"><input type="radio" name="ai-response" value="doctor" checked><span>El doctor directamente — lo que significa que si estoy atendiendo, el lead espera o se pierde</span></label>
+              <label class="radio"><input type="radio" name="ai-response" value="receptionist"><span>La recepcionista o alguien del equipo, pero depende de que esté disponible en ese momento</span></label>
+              <label class="radio"><input type="radio" name="ai-response" value="chatbot"><span>Un chatbot o sistema de IA responde al instante, sin importar la hora ni la carga de trabajo</span></label>
             </div>
           </div>
+
           <div class="field">
-            <label class="field__label">¿Hacen seguimiento a leads que no agendaron?</label>
+            <label class="field__label">¿Qué pasa si un lead escribe fuera del horario laboral?</label>
             <div class="field__radios">
-              <label class="radio"><input type="radio" name="ai-followup" value="no" checked><span>No</span></label>
-              <label class="radio"><input type="radio" name="ai-followup" value="manual"><span>Sí, manualmente</span></label>
-              <label class="radio"><input type="radio" name="ai-followup" value="auto"><span>Sí, automatizado</span></label>
+              <label class="radio"><input type="radio" name="ai-afterhours" value="nobody" checked><span>Nadie responde hasta el siguiente día hábil — y para ese momento, muchos ya contactaron a otra clínica</span></label>
+              <label class="radio"><input type="radio" name="ai-afterhours" value="message"><span>Dejamos un mensaje automático de "te respondemos pronto", pero no hay seguimiento real hasta que abrimos</span></label>
+              <label class="radio"><input type="radio" name="ai-afterhours" value="auto"><span>Un sistema responde, califica al lead y puede agendar la cita sin que nadie del equipo esté presente</span></label>
             </div>
           </div>
+
           <div class="field">
-            <label class="field__label">¿Cómo confirman las citas?</label>
+            <label class="field__label">¿Hacen seguimiento a leads que preguntaron pero no agendaron?</label>
             <div class="field__radios">
-              <label class="radio"><input type="radio" name="ai-confirm" value="call" checked><span>Llamada manual</span></label>
-              <label class="radio"><input type="radio" name="ai-confirm" value="message"><span>Mensaje manual (WhatsApp / SMS)</span></label>
-              <label class="radio"><input type="radio" name="ai-confirm" value="auto"><span>Automático</span></label>
+              <label class="radio"><input type="radio" name="ai-followup" value="no" checked><span>No — si no agendan en el momento, los perdemos. No volvemos a contactarlos</span></label>
+              <label class="radio"><input type="radio" name="ai-followup" value="manual"><span>En ocasiones alguien del equipo les escribe de vuelta, pero no es consistente y depende de que se acuerden</span></label>
+              <label class="radio"><input type="radio" name="ai-followup" value="auto"><span>Tenemos una secuencia automática que les da seguimiento hasta que agendan o dicen que no les interesa</span></label>
             </div>
           </div>
+
           <div class="field">
-            <label class="field__label">¿Contactan pacientes que dejaron de venir?</label>
+            <label class="field__label">¿Cómo confirman las citas agendadas?</label>
             <div class="field__radios">
-              <label class="radio"><input type="radio" name="ai-reactivation" value="no" checked><span>No</span></label>
-              <label class="radio"><input type="radio" name="ai-reactivation" value="manual"><span>A veces, manualmente</span></label>
-              <label class="radio"><input type="radio" name="ai-reactivation" value="auto"><span>Sistema automático</span></label>
+              <label class="radio"><input type="radio" name="ai-confirm" value="call" checked><span>Llamamos o escribimos manualmente uno por uno — consume tiempo del equipo y en ocasiones no da tiempo de confirmar a todos</span></label>
+              <label class="radio"><input type="radio" name="ai-confirm" value="message"><span>Enviamos mensajes manuales por WhatsApp o SMS, pero no siempre se envían a tiempo</span></label>
+              <label class="radio"><input type="radio" name="ai-confirm" value="auto"><span>Se envían recordatorios automáticos con confirmación, lo que reduce los no-shows sin esfuerzo del equipo</span></label>
             </div>
           </div>
+
+          <h3 class="section-title">Durante el procedimiento</h3>
+
           <div class="field">
-            <label class="field__label">¿Usan algún sistema para gestionar pacientes y leads?</label>
+            <label class="field__label">Cuando un paciente necesita recibir consentimientos, indicaciones o archivos, ¿cómo se los hacen llegar?</label>
             <div class="field__radios">
-              <label class="radio"><input type="radio" name="ai-crm" value="no" checked><span>No, todo en la cabeza o papel</span></label>
-              <label class="radio"><input type="radio" name="ai-crm" value="excel"><span>Excel / Google Sheets</span></label>
-              <label class="radio"><input type="radio" name="ai-crm" value="crm"><span>CRM o sistema dedicado</span></label>
+              <label class="radio"><input type="radio" name="ai-docs" value="manual" checked><span>Se busca el archivo en la computadora y se envía manualmente — a veces toma tiempo encontrarlo o se olvida</span></label>
+              <label class="radio"><input type="radio" name="ai-docs" value="templates"><span>Tenemos plantillas organizadas que nos ayudan, pero alguien del equipo tiene que enviarlas una por una</span></label>
+              <label class="radio"><input type="radio" name="ai-docs" value="auto"><span>Se envían de forma totalmente automática según el procedimiento agendado, sin que nadie tenga que intervenir</span></label>
             </div>
           </div>
+
+          <h3 class="section-title">Después de la compra</h3>
+
+          <div class="field">
+            <label class="field__label">¿Solicitan reseñas en Google después de cada procedimiento?</label>
+            <div class="field__radios">
+              <label class="radio"><input type="radio" name="ai-reviews" value="no" checked><span>No — estamos dejando pasar la oportunidad de rankear más alto en nuestra zona y atraer pacientes que buscan en Google</span></label>
+              <label class="radio"><input type="radio" name="ai-reviews" value="manual"><span>Lo pedimos de boca en ocasiones, pero no tenemos un sistema. Se nos pasa con la mayoría de pacientes y corremos el riesgo de que solo dejen reseña los insatisfechos — reseñas negativas que después no se pueden quitar</span></label>
+              <label class="radio"><input type="radio" name="ai-reviews" value="auto"><span>Sí, aunque nos gustaría tener un proceso que filtre y dirija solo a los pacientes satisfechos a dejar su reseña, asegurando que cada opinión pública potencie la reputación de la clínica</span></label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field__label">¿Hacen seguimiento para ofrecer un siguiente tratamiento o upsell después de que el paciente termina?</label>
+            <div class="field__radios">
+              <label class="radio"><input type="radio" name="ai-upsell" value="no" checked><span>No — el paciente se va y esperamos que vuelva por su cuenta, dejando dinero en la mesa con personas que ya confían en nosotros</span></label>
+              <label class="radio"><input type="radio" name="ai-upsell" value="manual"><span>Lo comentamos durante la consulta cuando se da la oportunidad, pero no tenemos un sistema de seguimiento posterior</span></label>
+              <label class="radio"><input type="radio" name="ai-upsell" value="auto"><span>Sí, tenemos un proceso, aunque nos gustaría que fuera más personalizado y automático según el historial del paciente</span></label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field__label">¿Tienen un sistema de referidos para que los pacientes satisfechos traigan nuevos pacientes?</label>
+            <div class="field__radios">
+              <label class="radio"><input type="radio" name="ai-referrals" value="no" checked><span>No — dependemos de que el boca a boca ocurra solo, sin incentivarlo ni medirlo</span></label>
+              <label class="radio"><input type="radio" name="ai-referrals" value="manual"><span>De manera informal pedimos que nos recomienden, pero no hay un programa estructurado ni forma de medir si funciona</span></label>
+              <label class="radio"><input type="radio" name="ai-referrals" value="auto"><span>Sí, aunque nos gustaría un sistema más automatizado que incentive, rastree y recompense cada referido</span></label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field__label">¿Contactan a pacientes que dejaron de venir?</label>
+            <div class="field__radios">
+              <label class="radio"><input type="radio" name="ai-reactivation" value="no" checked><span>No — perdemos pacientes silenciosamente sin saber por qué se fueron, y conseguir uno nuevo cuesta 5 veces más que reactivar uno existente</span></label>
+              <label class="radio"><input type="radio" name="ai-reactivation" value="manual"><span>A veces revisamos y llamamos a algunos, pero no es consistente y muchos se nos escapan</span></label>
+              <label class="radio"><input type="radio" name="ai-reactivation" value="auto"><span>Tenemos un sistema que detecta pacientes inactivos y los contacta automáticamente antes de que se vayan con la competencia</span></label>
+            </div>
+          </div>
+
+          <h3 class="section-title">Gestión</h3>
+
+          <div class="field">
+            <label class="field__label">¿Cómo gestionan la información de pacientes y leads?</label>
+            <div class="field__radios">
+              <label class="radio"><input type="radio" name="ai-crm" value="no" checked><span>En la cabeza, en papel o en libretas — lo que significa que si alguien del equipo falta, la información se pierde</span></label>
+              <label class="radio"><input type="radio" name="ai-crm" value="excel"><span>En un Google Sheet o Excel — nos funciona para lo básico, pero se queda corto para ver el panorama completo y tomar decisiones con datos reales</span></label>
+              <label class="radio"><input type="radio" name="ai-crm" value="crm"><span>En un CRM o sistema dedicado, aunque nos gustaría algo más visual, más integrado y que nos dé claridad en tiempo real</span></label>
+            </div>
+          </div>
+
         </div>
         <div class="step__nav">
           <button class="btn btn--ghost" onclick="prevStep()">← Atrás</button>

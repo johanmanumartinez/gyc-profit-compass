@@ -331,7 +331,7 @@ function fillAllAcqBenchmarks() {
 
 // ---- IA / AUTOMATIZACIÓN ----
 function getAIData() {
-  const fields = ['ai-booking', 'ai-response', 'ai-followup', 'ai-confirm', 'ai-reactivation', 'ai-crm'];
+  const fields = ['ai-booking', 'ai-response', 'ai-afterhours', 'ai-followup', 'ai-confirm', 'ai-docs', 'ai-reviews', 'ai-upsell', 'ai-referrals', 'ai-reactivation', 'ai-crm'];
   let score = 0;
   const answers = {};
   fields.forEach(f => {
@@ -339,9 +339,9 @@ function getAIData() {
     const val = checked ? checked.value : 'no';
     answers[f] = val;
     if (val === 'auto' || val === 'chatbot' || val === 'crm') score += 2;
-    else if (val === 'link' || val === 'receptionist' || val === 'message' || val === 'excel') score += 1;
+    else if (val === 'link' || val === 'receptionist' || val === 'message' || val === 'excel' || val === 'templates') score += 1;
   });
-  return { score, maxScore: 12, answers };
+  return { score, maxScore: 22, answers };
 }
 
 // ---- SIMULATION ----
@@ -510,12 +510,17 @@ function renderDashboard() {
   const aiPct = Math.round((ai.score / ai.maxScore) * 100);
   const aiClass = aiPct >= 67 ? 'good' : aiPct >= 33 ? 'mid' : 'low';
   const aiTexts = [];
-  if (ai.answers['ai-booking'] === 'manual') aiTexts.push('Agendamiento manual — pierdes leads fuera de horario.');
-  if (ai.answers['ai-response'] === 'nobody' || ai.answers['ai-response'] === 'doctor') aiTexts.push('Sin respuesta automática — si no respondes en 5 min, pierdes hasta el 80% de los leads.');
-  if (ai.answers['ai-followup'] === 'no') aiTexts.push('Sin seguimiento a leads no agendados — la mayoría necesitan 3-5 contactos.');
-  if (ai.answers['ai-confirm'] !== 'auto') aiTexts.push('Confirmación manual — consume tiempo y tiene más no-shows.');
-  if (ai.answers['ai-reactivation'] === 'no') aiTexts.push('Sin reactivación — reactivar un paciente cuesta 5x menos que conseguir uno nuevo.');
-  if (ai.answers['ai-crm'] === 'no') aiTexts.push('Sin CRM — no sabes cuántos leads se pierden en el camino.');
+  if (ai.answers['ai-booking'] === 'manual') aiTexts.push('Agendamiento manual — pierdes leads que no quieren llamar o que contactan fuera de horario.');
+  if (ai.answers['ai-response'] === 'doctor') aiTexts.push('El doctor responde leads — mientras atiende, los leads esperan o se pierden.');
+  if (ai.answers['ai-afterhours'] === 'nobody') aiTexts.push('Sin respuesta fuera de horario — esos leads contactan a otra clínica antes de que abras.');
+  if (ai.answers['ai-followup'] === 'no') aiTexts.push('Sin seguimiento a leads no agendados — la mayoría necesitan 3-5 contactos antes de decidirse.');
+  if (ai.answers['ai-confirm'] !== 'auto') aiTexts.push('Confirmación manual — consume tiempo del equipo y genera más no-shows.');
+  if (ai.answers['ai-docs'] === 'manual') aiTexts.push('Consentimientos y archivos se envían manualmente — toma tiempo y a veces se olvida.');
+  if (ai.answers['ai-reviews'] === 'no') aiTexts.push('No solicitas reseñas — pierdes posicionamiento en Google y dejas que solo los insatisfechos opinen.');
+  if (ai.answers['ai-upsell'] === 'no') aiTexts.push('Sin seguimiento post-compra — dejas dinero en la mesa con pacientes que ya confían en ti.');
+  if (ai.answers['ai-referrals'] === 'no') aiTexts.push('Sin sistema de referidos — dependes de que el boca a boca ocurra solo.');
+  if (ai.answers['ai-reactivation'] === 'no') aiTexts.push('Sin reactivación — pierdes pacientes silenciosamente y conseguir uno nuevo cuesta 5x más.');
+  if (ai.answers['ai-crm'] === 'no') aiTexts.push('Sin CRM — si alguien del equipo falta, la información de pacientes se pierde.');
 
   document.getElementById('ai-diagnosis').innerHTML = `
     <div class="capacity__bar"><div class="capacity__fill ${aiClass}" style="width:${aiPct}%"></div></div>
@@ -532,18 +537,18 @@ function renderDashboard() {
   if (occupancy < 75) problems.push({ severity: 3 - occupancy / 30, key: 'occupancy', title: 'Capacidad desperdiciada', text: `${svc.name} opera al ${occupancy.toFixed(0)}%. Tienes ${freeSlots} citas libres — ${fmt(moneyOnTable)} que dejas en la mesa. Un funnel dedicado llenaría esos espacios.`, cta: `Tengo ${freeSlots} citas libres en ${svc.name} y quiero llenarlas` });
   if (payrollPct > 40) problems.push({ severity: payrollPct / 15 - 2, key: 'payroll', title: 'Nómina alta', text: `Tu nómina es el ${payrollPct.toFixed(0)}% de tu facturación (ideal: <35%). Factura más o revisa roles.`, cta: `Mi nómina se come el ${payrollPct.toFixed(0)}% de mi facturación` });
   if (cacPct > 20) problems.push({ severity: cacPct / 10, key: 'cac', title: 'Adquisición cara', text: `CAC de ${fmt(cac)} por paciente (${cacPct.toFixed(0)}% del ticket). Optimizar tu funnel lo reduciría.`, cta: `Mi CAC es ${fmt(cac)} por paciente y quiero reducirlo` });
-  if (ai.score < 5) problems.push({ severity: 2.5 - ai.score / 3, key: 'automation', title: 'Sin automatización', text: `Tu clínica opera casi de forma manual. Pierdes leads, no haces seguimiento, no reactivas. La automatización es la palanca más rápida.`, cta: `No tengo automatización y quiero implementarla` });
+  if (ai.score < 10) problems.push({ severity: 2.5 - ai.score / 6, key: 'automation', title: 'Sin automatización', text: `Tu nivel de automatización es ${ai.score} de ${ai.maxScore}. Tu clínica opera de forma manual en la mayoría de procesos — pierdes leads, no haces seguimiento, no reactivas. La automatización es la palanca más rápida para crecer.`, cta: `Mi nivel de automatización es ${ai.score}/${ai.maxScore} y quiero mejorarlo` });
 
   problems.sort((a, b) => b.severity - a.severity);
-  const topProblem = problems[0] || null;
+  const topProblems = problems.slice(0, 3);
 
-  document.getElementById('top-problem').innerHTML = topProblem ? `
-    <div class="problem-box">
-      <span class="problem-box__tag">Tu área #1 de mejora</span>
-      <h3 class="problem-box__title">${topProblem.title}</h3>
-      <p class="problem-box__text">${topProblem.text}</p>
+  document.getElementById('top-problem').innerHTML = topProblems.length > 0 ? topProblems.map((p, i) => `
+    <div class="problem-box" ${i > 0 ? 'style="margin-top:12px;"' : ''}>
+      <span class="problem-box__tag">Área de mejora #${i + 1}</span>
+      <h3 class="problem-box__title">${p.title}</h3>
+      <p class="problem-box__text">${p.text}</p>
     </div>
-  ` : `
+  `).join('') : `
     <div class="problem-box problem-box--good">
       <span class="problem-box__tag">Buenas noticias</span>
       <h3 class="problem-box__title">Tu clínica está en buen camino</h3>
@@ -552,11 +557,14 @@ function renderDashboard() {
   `;
 
   // CTA
+  const topProblem = topProblems[0] || null;
+  const ctaParts = topProblems.map(p => p.cta).join('. ');
   const ctaMsg = topProblem
-    ? encodeURIComponent(`Hola Johan, acabo de usar el Profit Compass. ${topProblem.cta}. Me gustaría hablar sobre mi clínica.`)
+    ? encodeURIComponent(`Hola Johan, acabo de usar el Profit Compass. ${ctaParts}. Me gustaría hablar sobre mi clínica.`)
     : encodeURIComponent(`Hola Johan, acabo de usar el Profit Compass y quiero escalar ${svc.name} en mi clínica.`);
+  const problemsList = topProblems.map(p => `<strong>${p.title.toLowerCase()}</strong>`).join(', ');
   document.getElementById('cta-dynamic').innerHTML = `
-    <p class="cta-box__text">${topProblem ? `Tu problema principal: <strong>${topProblem.title.toLowerCase()}</strong>. Un experto puede ayudarte con un plan concreto para ${svc.name}.` : `¿Quieres un plan para escalar ${svc.name} con un sistema predecible de adquisición?`}</p>
+    <p class="cta-box__text">${topProblem ? `Tus áreas principales de mejora: ${problemsList}. Un experto puede ayudarte con un plan concreto para ${svc.name}.` : `¿Quieres un plan para escalar ${svc.name} con un sistema predecible de adquisición?`}</p>
     <a href="https://wa.me/584141932869?text=${ctaMsg}" class="btn btn--gold btn--lg" target="_blank" rel="noopener">${topProblem ? 'Hablar con Johan sobre cómo resolver esto' : 'Hablar con Johan sobre cómo escalar'}</a>
   `;
 
