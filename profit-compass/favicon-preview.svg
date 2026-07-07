@@ -2,10 +2,10 @@
   <rect width="512" height="512" rx="96" fill="#0C0B08"/>
   <rect x="8" y="8" width="496" height="496" rx="88" fill="none" stroke="#C9A84C" stroke-width="2" opacity="0.25"/>
 
-  <!-- G serif elegante -->
-  <text x="60" y="340" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="320" fill="#C9A84C">G</text>
+  <!-- G serif centrada -->
+  <text x="55" y="320" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="300" fill="#C9A84C">G</text>
 
   <!-- Electrocardiograma saliendo de la G hacia la derecha -->
-  <polyline points="310,270 340,270 358,220 376,320 394,250 412,270 460,270"
+  <polyline points="295,255 320,255 336,210 352,300 368,235 384,255 440,255"
     fill="none" stroke="#C9A84C" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
 </svg>
