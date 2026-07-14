@@ -55,8 +55,12 @@ function enterApp() {
   document.getElementById('wizard').style.display = 'block';
   updateProgress();
 }
-// TESTING: auto-enter sin gate
-document.addEventListener('DOMContentLoaded', enterApp);
+// Gate: escuchar mensaje del iframe GHL para entrar al wizard
+window.addEventListener('message', function(e) {
+  if (e.data && (e.data.type === 'form:submit' || e.data === 'form:submit' || (typeof e.data === 'string' && e.data.includes('submit')))) {
+    enterApp();
+  }
+});
 
 // ---- NAVIGATION ----
 function nextStep() {
