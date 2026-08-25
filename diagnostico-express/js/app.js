@@ -4,7 +4,7 @@
 
 // ---- CONFIG: Links de Johan (editar aquí) ----
 const SOCIAL = {
-  whatsapp: 'https://wa.me/NUMERO_DE_JOHAN', // TODO: poner número real ej: 584121234567
+  whatsapp: 'https://wa.me/584141932869',
   instagram: 'https://instagram.com/johanmartinez.med',
   tiktok: 'https://tiktok.com/@johanmartinez.med', // TODO: poner perfil real
   linkedin: 'https://linkedin.com/in/johanmanumartinez', // TODO: poner perfil real
