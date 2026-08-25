@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagnóstico Express — Grow Your Clinic</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&family=Schibsted+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <span class="topbar__logo">Grow Your Clinic</span>
+      <span class="topbar__badge">Diagnóstico Express</span>
+    </div>
+  </header>
+
+  <main class="app" id="app">
+
+    <!-- STEP 1: Perfil -->
+    <section class="step active" data-step="1">
+      <div class="step__header">
+        <span class="step__tag">01 / 06</span>
+        <h2 class="step__title">Perfil de la clínica</h2>
+        <p class="step__desc">Información básica para personalizar el diagnóstico.</p>
+      </div>
+      <div class="step__body">
+        <div class="field">
+          <label class="field__label">Nombre de la clínica</label>
+          <input type="text" class="field__input" id="clinic-name" placeholder="Ej: Clínica Dental Sonrisa">
+        </div>
+        <div class="field">
+          <label class="field__label">Especialidad(es)</label>
+          <div class="field__checks" id="specialty-checks">
+            <label class="check"><input type="checkbox" name="specialty" value="Odontología"><span>Odontología</span></label>
+            <label class="check"><input type="checkbox" name="specialty" value="Estética"><span>Estética</span></label>
+            <label class="check"><input type="checkbox" name="specialty" value="Dermatología"><span>Dermatología</span></label>
+            <label class="check"><input type="checkbox" name="specialty" value="Cirugía plástica"><span>Cirugía plástica</span></label>
+            <label class="check"><input type="checkbox" name="specialty" value="Oftalmología"><span>Oftalmología</span></label>
+            <label class="check"><input type="checkbox" name="specialty" value="Psicología"><span>Psicología</span></label>
+            <label class="check"><input type="checkbox" name="specialty" value="Fisioterapia"><span>Fisioterapia</span></label>
+            <label class="check"><input type="checkbox" name="specialty" value="Medicina general"><span>Medicina general</span></label>
+            <label class="check"><input type="checkbox" name="specialty" value="Multiespecialidad"><span>Multiespecialidad</span></label>
+            <label class="check"><input type="checkbox" name="specialty" value="Otro"><span>Otro</span></label>
+          </div>
+        </div>
+        <div class="field" id="specialty-other-wrap" style="display:none;">
+          <label class="field__label">Especifica</label>
+          <input type="text" class="field__input" id="specialty-other" placeholder="Ej: Medicina regenerativa">
+        </div>
+        <div class="field">
+          <label class="field__label">Nombre del profesional / dueño</label>
+          <input type="text" class="field__input" id="owner-name" placeholder="Ej: Dr. Rodríguez">
+        </div>
+      </div>
+      <div class="step__nav">
+        <div></div>
+        <button class="btn btn--primary" onclick="nextStep()">Siguiente</button>
+      </div>
+    </section>
+
+    <!-- STEP 2: Captación -->
+    <section class="step" data-step="2">
+      <div class="step__header">
+        <span class="step__tag">02 / 06</span>
+        <h2 class="step__title">Captación de pacientes</h2>
+        <p class="step__desc">Cómo llegan los pacientes hoy a la clínica.</p>
+      </div>
+      <div class="step__body">
+        <div class="field">
+          <label class="field__label">Pacientes nuevos por mes (aproximado)</label>
+          <input type="text" inputmode="numeric" class="field__input" id="new-patients" placeholder="Ej: 40 o 'entre 20 y 50'">
+        </div>
+        <div class="field">
+          <label class="field__label">¿Cómo llegan los pacientes hoy?</label>
+          <div class="field__checks">
+            <label class="check"><input type="checkbox" name="source" value="boca-a-boca"><span>Boca a boca / referidos</span></label>
+            <label class="check"><input type="checkbox" name="source" value="redes"><span>Redes sociales (orgánico)</span></label>
+            <label class="check"><input type="checkbox" name="source" value="ads"><span>Publicidad pagada (Meta/Google)</span></label>
+            <label class="check"><input type="checkbox" name="source" value="ubicacion"><span>Ubicación / paso</span></label>
+            <label class="check"><input type="checkbox" name="source" value="otro"><span>Otro</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field__label">¿Saben cuánto les cuesta adquirir un paciente nuevo?</label>
+          <div class="field__radios">
+            <label class="radio"><input type="radio" name="knows-cac" value="si"><span>Sí</span></label>
+            <label class="radio"><input type="radio" name="knows-cac" value="no"><span>No</span></label>
+          </div>
+        </div>
+        <div class="field field--conditional" id="cac-amount-wrap" style="display:none;">
+          <label class="field__label">¿Cuánto les cuesta aproximadamente cada paciente nuevo?</label>
+          <input type="text" inputmode="numeric" class="field__input" id="cac-amount" placeholder="Ej: $15 o 'no estoy seguro del monto exacto'">
+        </div>
+        <div class="field">
+          <label class="field__label">¿Invierten en publicidad actualmente?</label>
+          <div class="field__radios">
+            <label class="radio"><input type="radio" name="invests-ads" value="si"><span>Sí</span></label>
+            <label class="radio"><input type="radio" name="invests-ads" value="antes"><span>Lo hicimos antes y lo dejamos</span></label>
+            <label class="radio"><input type="radio" name="invests-ads" value="no"><span>No, nunca</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="step__nav">
+        <button class="btn btn--ghost" onclick="prevStep()">Atrás</button>
+        <button class="btn btn--primary" onclick="nextStep()">Siguiente</button>
+      </div>
+    </section>
+
+    <!-- STEP 3: Operación -->
+    <section class="step" data-step="3">
+      <div class="step__header">
+        <span class="step__tag">03 / 06</span>
+        <h2 class="step__title">Operación y equipo</h2>
+        <p class="step__desc">Cómo funciona la clínica por dentro.</p>
+      </div>
+      <div class="step__body">
+        <div class="field">
+          <label class="field__label">¿Cuántas citas o consultas pueden atender por semana? (capacidad máxima)</label>
+          <input type="text" inputmode="numeric" class="field__input" id="capacity-week" placeholder="Ej: 60 o 'depende de la semana'">
+        </div>
+        <div class="field">
+          <label class="field__label">¿Cuántas atienden realmente por semana? (promedio)</label>
+          <input type="text" inputmode="numeric" class="field__input" id="actual-week" placeholder="Ej: 35 o 'entre 30 y 40'">
+        </div>
+        <div class="field">
+          <label class="field__label">¿Quién responde los mensajes de WhatsApp / llamadas?</label>
+          <div class="field__radios">
+            <label class="radio"><input type="radio" name="who-responds" value="recepcion"><span>Recepción / asistente</span></label>
+            <label class="radio"><input type="radio" name="who-responds" value="dueno"><span>El dueño directamente</span></label>
+            <label class="radio"><input type="radio" name="who-responds" value="ambos"><span>Ambos / depende del momento</span></label>
+            <label class="radio"><input type="radio" name="who-responds" value="ia"><span>Sistema automatizado / IA</span></label>
+            <label class="radio"><input type="radio" name="who-responds" value="hibrido"><span>Híbrido (IA + persona)</span></label>
+            <label class="radio"><input type="radio" name="who-responds" value="nadie"><span>No hay proceso definido</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field__label">¿En cuánto tiempo responden normalmente?</label>
+          <div class="field__radios">
+            <label class="radio"><input type="radio" name="response-time" value="3min"><span>Menos de 3 minutos</span></label>
+            <label class="radio"><input type="radio" name="response-time" value="3-10"><span>Entre 3 y 10 minutos</span></label>
+            <label class="radio"><input type="radio" name="response-time" value="10-30"><span>Entre 10 y 30 minutos</span></label>
+            <label class="radio"><input type="radio" name="response-time" value="30-60"><span>Entre 30 min y 1 hora</span></label>
+            <label class="radio"><input type="radio" name="response-time" value="1-2h"><span>Entre 1 y 2 horas</span></label>
+            <label class="radio"><input type="radio" name="response-time" value="mas2h"><span>Más de 2 horas</span></label>
+            <label class="radio"><input type="radio" name="response-time" value="irregular"><span>Irregular / a veces no se responde</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="step__nav">
+        <button class="btn btn--ghost" onclick="prevStep()">Atrás</button>
+        <button class="btn btn--primary" onclick="nextStep()">Siguiente</button>
+      </div>
+    </section>
+
+    <!-- STEP 4: Rentabilidad -->
+    <section class="step" data-step="4">
+      <div class="step__header">
+        <span class="step__tag">04 / 06</span>
+        <h2 class="step__title">Rentabilidad y retención</h2>
+        <p class="step__desc">El dinero que ya está dentro de la clínica.</p>
+      </div>
+      <div class="step__body">
+        <div class="field">
+          <label class="field__label">¿Saben cuál es su servicio más rentable?</label>
+          <div class="field__radios">
+            <label class="radio"><input type="radio" name="knows-star" value="si"><span>Sí</span></label>
+            <label class="radio"><input type="radio" name="knows-star" value="creo"><span>Creemos saberlo</span></label>
+            <label class="radio"><input type="radio" name="knows-star" value="no"><span>No</span></label>
+          </div>
+        </div>
+        <div id="star-service-wrap" style="display:none;">
+          <div class="field">
+            <label class="field__label">¿Cuál es ese servicio?</label>
+            <input type="text" class="field__input" id="star-service-name" placeholder="Ej: Blanqueamiento dental">
+          </div>
+          <div class="field__row">
+            <div class="field">
+              <label class="field__label">Precio al paciente ($)</label>
+              <input type="text" inputmode="numeric" class="field__input" id="star-service-price" placeholder="Ej: 80">
+            </div>
+            <div class="field">
+              <label class="field__label">Ganancia estimada (%)</label>
+              <input type="text" inputmode="numeric" class="field__input" id="star-service-margin" placeholder="Ej: 60">
+            </div>
+          </div>
+          <div class="field">
+            <label class="field__label">¿Cuántos de estos hacen al mes?</label>
+            <input type="text" inputmode="numeric" class="field__input" id="star-service-volume" placeholder="Ej: 25 o 'varía mucho'">
+          </div>
+        </div>
+        <div class="field">
+          <label class="field__label">¿Tienen un sistema para que los pacientes vuelvan?</label>
+          <div class="field__radios">
+            <label class="radio"><input type="radio" name="retention" value="si"><span>Sí, sistematizado</span></label>
+            <label class="radio"><input type="radio" name="retention" value="manual"><span>Lo hacemos manual / a veces</span></label>
+            <label class="radio"><input type="radio" name="retention" value="no"><span>No tenemos nada</span></label>
+          </div>
+        </div>
+        <div class="field field--conditional" id="retention-detail-wrap" style="display:none;">
+          <label class="field__label">¿Qué hacen exactamente? <span class="field__optional">(opcional)</span></label>
+          <textarea class="field__textarea" id="retention-detail" placeholder="Ej: Llamamos a los 3 meses para recordar control" rows="2"></textarea>
+        </div>
+        <div class="field">
+          <label class="field__label">¿Ofrecen servicios adicionales a pacientes existentes?</label>
+          <div class="field__radios">
+            <label class="radio"><input type="radio" name="crosssell" value="si"><span>Sí, de forma activa</span></label>
+            <label class="radio"><input type="radio" name="crosssell" value="aveces"><span>A veces, si surge</span></label>
+            <label class="radio"><input type="radio" name="crosssell" value="no"><span>No</span></label>
+          </div>
+        </div>
+        <div class="field field--conditional" id="crosssell-detail-wrap" style="display:none;">
+          <label class="field__label">¿Cómo lo hacen? <span class="field__optional">(opcional)</span></label>
+          <textarea class="field__textarea" id="crosssell-detail" placeholder="Ej: El doctor recomienda tratamientos complementarios en consulta" rows="2"></textarea>
+        </div>
+        <div class="field">
+          <label class="field__label">¿Piden reseñas o recomendaciones a pacientes satisfechos?</label>
+          <div class="field__radios">
+            <label class="radio"><input type="radio" name="reviews" value="si"><span>Sí, tenemos proceso</span></label>
+            <label class="radio"><input type="radio" name="reviews" value="aveces"><span>A veces</span></label>
+            <label class="radio"><input type="radio" name="reviews" value="no"><span>No</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="step__nav">
+        <button class="btn btn--ghost" onclick="prevStep()">Atrás</button>
+        <button class="btn btn--primary" onclick="nextStep()">Siguiente</button>
+      </div>
+    </section>
+
+    <!-- STEP 5: Presencia digital -->
+    <section class="step" data-step="5">
+      <div class="step__header">
+        <span class="step__tag">05 / 06</span>
+        <h2 class="step__title">Presencia digital</h2>
+        <p class="step__desc">Cómo se ve la clínica desde afuera.</p>
+      </div>
+      <div class="step__body">
+        <div class="field">
+          <label class="field__label">¿Tienen redes sociales activas?</label>
+          <div class="field__radios">
+            <label class="radio"><input type="radio" name="social" value="activas"><span>Sí, publicamos regularmente</span></label>
+            <label class="radio"><input type="radio" name="social" value="abandonada"><span>Tenemos cuenta pero publicamos poco</span></label>
+            <label class="radio"><input type="radio" name="social" value="no"><span>No tenemos</span></label>
+          </div>
+        </div>
+        <div class="field field--conditional" id="social-detail-wrap" style="display:none;">
+          <label class="field__label">¿Qué tipo de contenido publican? <span class="field__optional">(opcional)</span></label>
+          <div class="field__checks">
+            <label class="check"><input type="checkbox" name="content-type" value="reels"><span>Reels / Videos</span></label>
+            <label class="check"><input type="checkbox" name="content-type" value="carruseles"><span>Carruseles</span></label>
+            <label class="check"><input type="checkbox" name="content-type" value="fotos"><span>Fotos</span></label>
+            <label class="check"><input type="checkbox" name="content-type" value="stories"><span>Stories</span></label>
+            <label class="check"><input type="checkbox" name="content-type" value="otro-contenido"><span>Otro</span></label>
+          </div>
+          <label class="field__label" style="margin-top:16px;">¿Con qué frecuencia? <span class="field__optional">(opcional)</span></label>
+          <div class="field__radios">
+            <label class="radio"><input type="radio" name="content-freq" value="diario"><span>Diario</span></label>
+            <label class="radio"><input type="radio" name="content-freq" value="3-4"><span>3-4/semana</span></label>
+            <label class="radio"><input type="radio" name="content-freq" value="1-2"><span>1-2/semana</span></label>
+            <label class="radio"><input type="radio" name="content-freq" value="esporadico"><span>Esporádico</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field__label">¿El profesional / dueño da la cara en el contenido?</label>
+          <div class="field__radios">
+            <label class="radio"><input type="radio" name="face" value="si"><span>Sí, aparece en videos / fotos</span></label>
+            <label class="radio"><input type="radio" name="face" value="poco"><span>Poco, mayormente es la clínica</span></label>
+            <label class="radio"><input type="radio" name="face" value="no"><span>No, solo se publica la clínica o procedimientos</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field__label">¿Tienen página web?</label>
+          <div class="field__radios">
+            <label class="radio"><input type="radio" name="website" value="si"><span>Sí, actualizada</span></label>
+            <label class="radio"><input type="radio" name="website" value="vieja"><span>Sí, pero desactualizada</span></label>
+            <label class="radio"><input type="radio" name="website" value="no"><span>No</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="step__nav">
+        <button class="btn btn--ghost" onclick="prevStep()">Atrás</button>
+        <button class="btn btn--primary" onclick="nextStep()">Siguiente</button>
+      </div>
+    </section>
+
+    <!-- STEP 6: Herramientas y automatización -->
+    <section class="step" data-step="6">
+      <div class="step__header">
+        <span class="step__tag">06 / 06</span>
+        <h2 class="step__title">Herramientas y automatización</h2>
+        <p class="step__desc">Última sección — qué herramientas usan hoy para gestionar la clínica.</p>
+      </div>
+      <div class="step__body">
+        <div class="field">
+          <label class="field__label">¿Usan algún sistema o software para gestionar pacientes?</label>
+          <div class="field__radios">
+            <label class="radio"><input type="radio" name="patient-system" value="crm"><span>CRM / software especializado</span></label>
+            <label class="radio"><input type="radio" name="patient-system" value="agenda"><span>Agenda digital (Google Calendar, etc.)</span></label>
+            <label class="radio"><input type="radio" name="patient-system" value="excel"><span>Excel / hojas de cálculo</span></label>
+            <label class="radio"><input type="radio" name="patient-system" value="papel"><span>Papel / cuaderno</span></label>
+            <label class="radio"><input type="radio" name="patient-system" value="nada"><span>Nada</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field__label">¿Hay procesos que se hacen manual y consumen mucho tiempo? <span class="field__optional">(opcional)</span></label>
+          <textarea class="field__textarea" id="manual-processes" placeholder="Ej: Agendar citas por WhatsApp uno por uno, pasar datos a Excel, recordatorios manuales..." rows="2"></textarea>
+        </div>
+        <div class="field">
+          <label class="field__label">¿Usan herramientas de inteligencia artificial o automatización?</label>
+          <div class="field__radios">
+            <label class="radio"><input type="radio" name="uses-ai" value="si"><span>Sí</span></label>
+            <label class="radio"><input type="radio" name="uses-ai" value="no"><span>No</span></label>
+          </div>
+        </div>
+        <div class="field field--conditional" id="ai-detail-wrap" style="display:none;">
+          <label class="field__label">¿Cuáles? <span class="field__optional">(opcional)</span></label>
+          <textarea class="field__textarea" id="ai-detail" placeholder="Ej: ChatGPT para contenido, chatbot en WhatsApp..." rows="2"></textarea>
+        </div>
+      </div>
+      <div class="step__nav">
+        <button class="btn btn--ghost" onclick="prevStep()">Atrás</button>
+        <button class="btn btn--primary btn--gold" onclick="showResults()">Ver diagnóstico</button>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="results" id="results" style="display:none;">
+      <div class="results__header">
+        <span class="results__tag">Diagnóstico Express</span>
+        <h2 class="results__title" id="results-clinic-name">Clínica</h2>
+        <p class="results__sub" id="results-specialty">Especialidad</p>
+      </div>
+
+      <!-- Score general -->
+      <div class="score-ring-wrap">
+        <div class="score-ring" id="score-ring">
+          <svg viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="52" fill="none" stroke="var(--esp)" stroke-width="8"/>
+            <circle cx="60" cy="60" r="52" fill="none" stroke="var(--gold)" stroke-width="8"
+              stroke-dasharray="327" stroke-dashoffset="327" stroke-linecap="round"
+              transform="rotate(-90 60 60)" id="score-circle"/>
+          </svg>
+          <div class="score-ring__value" id="score-value">0</div>
+          <div class="score-ring__label">de 100</div>
+        </div>
+        <p class="score-ring__verdict" id="score-verdict"></p>
+      </div>
+
+      <!-- Narrativa contextual -->
+      <div class="narrative" id="narrative"></div>
+
+      <!-- Métricas de área (clickeables → abren modal) -->
+      <div class="areas" id="areas-grid"></div>
+
+      <!-- Ocupación visual -->
+      <div class="occupancy-card" id="occupancy-card" style="display:none;">
+        <h3 class="occupancy-card__title">Ocupación actual estimada</h3>
+        <div class="occupancy-bar">
+          <div class="occupancy-bar__fill" id="occupancy-fill"></div>
+          <span class="occupancy-bar__label" id="occupancy-label"></span>
+        </div>
+        <p class="occupancy-card__text" id="occupancy-text"></p>
+      </div>
+
+      <!-- Servicio estrella resumen -->
+      <div class="star-card" id="star-card" style="display:none;">
+        <h3 class="star-card__title">Servicio estrella reportado</h3>
+        <div class="star-card__grid" id="star-card-grid"></div>
+        <p class="star-card__note" id="star-card-note"></p>
+      </div>
+
+      <!-- Prioridades -->
+      <div class="priorities-section" id="priorities-section" style="display:none;">
+        <h3 class="priorities-section__title">Prioridades para tu clínica</h3>
+        <div class="priorities" id="priorities"></div>
+      </div>
+
+      <!-- Hallazgos -->
+      <div class="findings-section">
+        <h3 class="findings-section__title">Hallazgos del diagnóstico</h3>
+        <div class="findings" id="findings"></div>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-block">
+        <p class="cta-block__text">Este diagnóstico es una foto rápida. En una sesión de 30 minutos puedo mostrarte exactamente dónde está el dinero que tu clínica está dejando en la mesa.</p>
+        <button class="btn btn--gold btn--lg" onclick="downloadDocument()">Descargar diagnóstico</button>
+        <button class="btn btn--ghost" onclick="resetApp()" style="margin-top:12px;">Nuevo diagnóstico</button>
+      </div>
+
+      <footer class="results__footer">
+        <span>Johan Martínez — Grow Your Clinic</span>
+        <span>@johanmartinez.med</span>
+      </footer>
+    </section>
+
+  </main>
+
+  <!-- MODAL para desgloses -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <button class="modal__close" onclick="closeModal()">&times;</button>
+      <div class="modal__indicator" id="modal-indicator"></div>
+      <h3 class="modal__title" id="modal-title"></h3>
+      <div class="modal__score-row">
+        <span class="modal__score" id="modal-score"></span>
+        <span class="modal__label" id="modal-label"></span>
+      </div>
+      <div class="modal__content" id="modal-content"></div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
