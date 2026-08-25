@@ -4,7 +4,7 @@
 
 // ---- CONFIG: Links de Johan (editar aquí) ----
 const SOCIAL = {
-  whatsapp: 'https://wa.me/584141234567', // TODO: poner número real
+  whatsapp: 'https://wa.me/NUMERO_DE_JOHAN', // TODO: poner número real ej: 584121234567
   instagram: 'https://instagram.com/johanmartinez.med',
   tiktok: 'https://tiktok.com/@johanmartinez.med', // TODO: poner perfil real
   linkedin: 'https://linkedin.com/in/johanmanumartinez', // TODO: poner perfil real
@@ -51,6 +51,7 @@ setupToggle('knows-star', 'star-service-wrap', ['si', 'creo']);
 setupToggle('retention', 'retention-detail-wrap', ['si', 'manual']);
 setupToggle('crosssell', 'crosssell-detail-wrap', ['si', 'aveces']);
 setupToggle('social', 'social-detail-wrap', ['activas', 'abandonada']);
+setupToggle('invests-ads', 'ads-detail-wrap', ['si', 'antes']);
 setupToggle('uses-ai', 'ai-detail-wrap', ['si']);
 
 // --- Data helpers ---
@@ -82,6 +83,9 @@ function getData() {
     cacAmountRaw: val('cac-amount'),
     cacAmount: extractNumber('cac-amount'),
     investsAds: radio('invests-ads'),
+    adsWho: radio('ads-who'),
+    adsStrategy: radio('ads-strategy'),
+    adsContext: val('ads-context'),
     capacityWeekRaw: val('capacity-week'),
     capacityWeek: extractNumber('capacity-week'),
     actualWeekRaw: val('actual-week'),
@@ -101,6 +105,9 @@ function getData() {
     social: radio('social'),
     contentTypes: checks('content-type'),
     contentFreq: radio('content-freq'),
+    socialWho: radio('social-who'),
+    socialStrategy: radio('social-strategy'),
+    socialContext: val('social-context'),
     face: radio('face'),
     website: radio('website'),
     patientSystem: radio('patient-system'),
@@ -197,11 +204,31 @@ function score(data) {
   captacion += ptsCac;
 
   let ptsAds = 0, adsLabel = '';
-  if (doesAds) { ptsAds = 6; adsLabel = 'Activa'; }
-  else if (didAds) {
+  if (doesAds) {
+    // Profundizar: ¿hay estrategia detrás?
+    if (data.adsStrategy === 'si') { ptsAds = 6; adsLabel = 'Activa con estrategia'; }
+    else if (data.adsStrategy === 'masomenos') {
+      ptsAds = 4; adsLabel = 'Activa sin estrategia clara';
+      findings.push({ type: 'yellow', title: 'Publicidad activa pero sin estrategia clara', priority: 4,
+        desc: 'Están invirtiendo en publicidad pero sin métricas ni estrategia definida. Eso significa que probablemente están pagando más de lo necesario por cada paciente y no saben qué funciona y qué no.' });
+    } else {
+      ptsAds = 3; adsLabel = 'Activa sin estrategia';
+      findings.push({ type: 'red', title: 'Invierten en publicidad sin ninguna estrategia', priority: 2,
+        desc: 'Están gastando dinero en anuncios sin un plan claro ni métricas de seguimiento. Cada peso invertido sin estrategia es un peso que probablemente se está desperdiciando. Primero hay que definir objetivos y métricas antes de seguir invirtiendo.' });
+    }
+    // Quién la gestiona
+    if (data.adsWho === 'nosotros') {
+      findings.push({ type: 'yellow', title: 'La publicidad la gestionan internamente', priority: 6,
+        desc: 'No está mal, pero requiere tiempo y conocimiento técnico que evoluciona constantemente. Si no están viendo resultados claros, vale la pena evaluar ayuda especializada.' });
+    }
+  } else if (didAds) {
     ptsAds = 3; adsLabel = 'Abandonada';
     findings.push({ type: 'yellow', title: 'Dejaron la publicidad', priority: 5,
       desc: 'Probablemente no funcionó porque no había claridad de métricas ni un sistema que convirtiera esos leads en citas. Con números claros y un proceso detrás, la publicidad deja de ser un gasto y empieza a ser una inversión medible.' });
+    if (data.adsWho === 'nosotros') {
+      findings.push({ type: 'yellow', title: 'La publicidad la manejaban internamente', priority: 7,
+        desc: 'Cuando la publicidad la maneja alguien sin experiencia específica, es normal que no funcione. Eso no significa que la publicidad no sirva — significa que faltó expertise.' });
+    }
   } else {
     ptsAds = 1; adsLabel = 'Nunca';
     findings.push({ type: 'yellow', title: 'Sin publicidad activa', priority: 6,
@@ -210,7 +237,7 @@ function score(data) {
   captacion += ptsAds;
   breakdowns.captacion.push({
     label: 'Publicidad', detail: '', pts: ptsAds, max: 6, verdict: adsLabel,
-    explanation: 'Si la clínica invierte en publicidad pagada (Meta Ads, Google Ads, etc.) para atraer pacientes de forma activa y medible, en lugar de depender solo de que lleguen solos.'
+    explanation: 'Si la clínica invierte en publicidad pagada (Meta Ads, Google Ads, etc.) con una estrategia definida y métricas claras, o si simplemente gasta sin saber qué funciona.'
   });
 
   // ============ OPERACIÓN (max 25) ============
@@ -391,11 +418,35 @@ function score(data) {
   // ============ DIGITAL (max 25) ============
 
   let ptsSocial = 0, socialLabel = '';
-  if (data.social === 'activas') { ptsSocial = 9; socialLabel = 'Activas'; }
-  else if (data.social === 'abandonada') {
+  if (data.social === 'activas') {
+    // Profundizar: ¿hay estrategia detrás?
+    if (data.socialStrategy === 'si') { ptsSocial = 9; socialLabel = 'Activas con estrategia'; }
+    else if (data.socialStrategy === 'masomenos') {
+      ptsSocial = 6; socialLabel = 'Activas sin estrategia clara';
+      findings.push({ type: 'yellow', title: 'Publican en redes pero sin estrategia definida', priority: 4,
+        desc: 'Publicar por publicar no genera resultados predecibles. Sin un calendario, pilares de contenido y objetivos claros, el esfuerzo se diluye. La diferencia entre "estar en redes" y "usar las redes para crecer" es la estrategia.' });
+    } else {
+      ptsSocial = 4; socialLabel = 'Activas sin plan';
+      findings.push({ type: 'yellow', title: 'Publican en redes sin ningún plan', priority: 3,
+        desc: 'Están dedicando tiempo a las redes pero sin dirección. Eso genera frustración porque no se ven resultados. Un plan simple — qué publicar, cuándo y para quién — cambia todo.' });
+    }
+    // Quién gestiona
+    if (data.socialWho === 'familiar') {
+      findings.push({ type: 'yellow', title: 'Las redes las maneja un familiar o conocido', priority: 5,
+        desc: 'Es un inicio, pero sin conocimiento de marketing ni de la clínica, el contenido probablemente no conecta con los pacientes potenciales. Vale la pena profesionalizar este proceso.' });
+    } else if (data.socialWho === 'dueno') {
+      findings.push({ type: 'yellow', title: 'El dueño maneja las redes personalmente', priority: 6,
+        desc: 'Buena señal que el profesional esté involucrado, pero manejar todo solo no escala. Idealmente el profesional genera el contenido (videos, opiniones) y alguien más se encarga de la publicación y gestión.' });
+    }
+  } else if (data.social === 'abandonada') {
     ptsSocial = 4; socialLabel = 'Poco activas';
     findings.push({ type: 'yellow', title: 'Redes sociales con poca actividad', priority: 5,
       desc: 'Una cuenta inactiva puede generar más desconfianza que no tener cuenta. Los pacientes revisan las redes antes de decidir.' });
+    if (data.socialWho) {
+      const whoMap = { dueno: 'el dueño', empleado: 'un empleado', cm: 'un community manager', agencia: 'una agencia', familiar: 'un familiar' };
+      findings.push({ type: 'yellow', title: `Las redes las gestiona ${whoMap[data.socialWho] || 'alguien'} pero publican poco`, priority: 6,
+        desc: 'Tener a alguien asignado pero publicar poco indica que falta proceso, contenido o prioridad. Definir un mínimo viable (ej: 3 publicaciones por semana) con calendario ayuda a crear consistencia.' });
+    }
   } else {
     ptsSocial = 1; socialLabel = 'No tienen';
     findings.push({ type: 'red', title: 'Sin presencia en redes sociales', priority: 3,
@@ -404,7 +455,7 @@ function score(data) {
   digital += ptsSocial;
   breakdowns.digital.push({
     label: 'Redes sociales', detail: '', pts: ptsSocial, max: 9, verdict: socialLabel,
-    explanation: 'Si la clínica tiene presencia activa en redes sociales (Instagram, Facebook, TikTok). Los pacientes revisan las redes antes de agendar — una cuenta activa genera confianza, una inactiva genera dudas.'
+    explanation: 'No solo si la clínica tiene redes activas, sino si hay una estrategia detrás. Publicar sin plan es mejor que no publicar, pero publicar con estrategia es lo que realmente genera pacientes.'
   });
 
   let ptsFace = 0, faceLabel = '';
@@ -969,6 +1020,13 @@ function showToast(msg) {
   setTimeout(() => toast.classList.remove('show'), 2800);
 }
 
+function goBackToEdit() {
+  document.getElementById('results').style.display = 'none';
+  currentStep = totalSteps;
+  document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function resetApp() {
   document.getElementById('results').style.display = 'none';
   document.getElementById('star-card').style.display = 'none';
@@ -978,7 +1036,7 @@ function resetApp() {
   document.querySelector('.step[data-step="1"]').classList.add('active');
   document.querySelectorAll('input[type="text"], input[type="number"], textarea').forEach(i => i.value = '');
   document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(i => i.checked = false);
-  ['specialty-other-wrap','cac-amount-wrap','star-service-wrap','retention-detail-wrap','crosssell-detail-wrap','social-detail-wrap','ai-detail-wrap'].forEach(id => {
+  ['specialty-other-wrap','cac-amount-wrap','ads-detail-wrap','star-service-wrap','retention-detail-wrap','crosssell-detail-wrap','social-detail-wrap','ai-detail-wrap'].forEach(id => {
     document.getElementById(id).style.display = 'none';
   });
   const fill = document.getElementById('occupancy-fill');

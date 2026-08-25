@@ -104,6 +104,23 @@
             <label class="radio"><input type="radio" name="invests-ads" value="no"><span>No, nunca</span></label>
           </div>
         </div>
+        <div class="field field--conditional" id="ads-detail-wrap" style="display:none;">
+          <label class="field__label">¿Quién gestiona la publicidad?</label>
+          <div class="field__radios">
+            <label class="radio"><input type="radio" name="ads-who" value="nosotros"><span>Nosotros mismos</span></label>
+            <label class="radio"><input type="radio" name="ads-who" value="cm"><span>Community manager</span></label>
+            <label class="radio"><input type="radio" name="ads-who" value="agencia"><span>Agencia</span></label>
+            <label class="radio"><input type="radio" name="ads-who" value="freelancer"><span>Freelancer</span></label>
+          </div>
+          <label class="field__label" style="margin-top:16px;">¿Hay una estrategia definida detrás de los anuncios?</label>
+          <div class="field__radios">
+            <label class="radio"><input type="radio" name="ads-strategy" value="si"><span>Sí, con métricas claras</span></label>
+            <label class="radio"><input type="radio" name="ads-strategy" value="masomenos"><span>Más o menos</span></label>
+            <label class="radio"><input type="radio" name="ads-strategy" value="no"><span>No, probamos cosas a ver qué pasa</span></label>
+          </div>
+          <label class="field__label" style="margin-top:16px;">¿Algo más sobre cómo manejan la publicidad? <span class="field__optional">(opcional)</span></label>
+          <textarea class="field__textarea" id="ads-context" placeholder="Ej: Invertimos $200/mes en Meta, nos trae leads pero pocos agendan..." rows="2"></textarea>
+        </div>
       </div>
       <div class="step__nav">
         <button class="btn btn--ghost" onclick="prevStep()">Atrás</button>
@@ -264,6 +281,22 @@
             <label class="radio"><input type="radio" name="content-freq" value="1-2"><span>1-2/semana</span></label>
             <label class="radio"><input type="radio" name="content-freq" value="esporadico"><span>Esporádico</span></label>
           </div>
+          <label class="field__label" style="margin-top:16px;">¿Quién se encarga de las redes?</label>
+          <div class="field__radios">
+            <label class="radio"><input type="radio" name="social-who" value="dueno"><span>El dueño / profesional</span></label>
+            <label class="radio"><input type="radio" name="social-who" value="empleado"><span>Un empleado</span></label>
+            <label class="radio"><input type="radio" name="social-who" value="cm"><span>Community manager</span></label>
+            <label class="radio"><input type="radio" name="social-who" value="agencia"><span>Agencia</span></label>
+            <label class="radio"><input type="radio" name="social-who" value="familiar"><span>Familiar / conocido</span></label>
+          </div>
+          <label class="field__label" style="margin-top:16px;">¿Hay una estrategia de contenido definida?</label>
+          <div class="field__radios">
+            <label class="radio"><input type="radio" name="social-strategy" value="si"><span>Sí, con calendario y plan</span></label>
+            <label class="radio"><input type="radio" name="social-strategy" value="masomenos"><span>Más o menos, publicamos lo que sale</span></label>
+            <label class="radio"><input type="radio" name="social-strategy" value="no"><span>No, publicamos sin plan</span></label>
+          </div>
+          <label class="field__label" style="margin-top:16px;">¿Algo más sobre cómo manejan las redes? <span class="field__optional">(opcional)</span></label>
+          <textarea class="field__textarea" id="social-context" placeholder="Ej: Mi sobrina nos hace las publicaciones cuando puede..." rows="2"></textarea>
         </div>
         <div class="field">
           <label class="field__label">¿El profesional / dueño da la cara en el contenido?</label>
@@ -330,6 +363,9 @@
 
     <!-- RESULTS -->
     <section class="results" id="results" style="display:none;">
+      <div class="results__back-top">
+        <button class="btn btn--ghost btn--sm" onclick="goBackToEdit()">&#8592; Volver a editar</button>
+      </div>
       <div class="results__header">
         <span class="results__tag">Diagnóstico Express</span>
         <h2 class="results__title" id="results-clinic-name">Clínica</h2>
@@ -390,7 +426,8 @@
       <div class="cta-block">
         <p class="cta-block__text">Este diagnóstico es una foto rápida. En una sesión de 30 minutos puedo mostrarte exactamente dónde está el dinero que tu clínica está dejando en la mesa.</p>
         <button class="btn btn--gold btn--lg" onclick="downloadDocument()">Descargar diagnóstico</button>
-        <button class="btn btn--ghost" onclick="resetApp()" style="margin-top:12px;">Nuevo diagnóstico</button>
+        <button class="btn btn--ghost" onclick="goBackToEdit()" style="margin-top:12px;">&#8592; Volver a editar</button>
+        <button class="btn btn--ghost" onclick="resetApp()" style="margin-top:8px;">Nuevo diagnóstico</button>
       </div>
 
       <footer class="results__footer">

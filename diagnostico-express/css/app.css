@@ -145,6 +145,10 @@ body {
 .results__title { font-family: var(--d); font-weight: 600; font-size: 2rem; color: var(--fg); margin-bottom: 6px; }
 .results__sub { font-size: 0.92rem; color: var(--grey); }
 
+/* Back button top */
+.results__back-top { margin-bottom: 16px; }
+.btn--sm { padding: 8px 18px; font-size: 0.8rem; }
+
 /* Score ring */
 .score-ring-wrap { text-align: center; margin-bottom: 32px; }
 .score-ring {
